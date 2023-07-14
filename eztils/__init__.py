@@ -1,4 +1,4 @@
-"""eds torch stuff"""
+"""eds utilities"""
 
 import sys
 

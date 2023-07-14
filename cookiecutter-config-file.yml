@@ -2,7 +2,7 @@
 
 default_context:
   project_name: "eztils"
-  project_description: "eds torch stuff"
+  project_description: "eds utilities"
   organization: "ezhang7423"
   license: "MIT"
   minimal_python_version: 3.8

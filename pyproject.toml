@@ -5,7 +5,7 @@ requires = ["poetry_core>=1.0.0"]
 
 [tool.poetry]
 authors = ["ezhang7423 <ezhang7423@student.palomar.edu>"]
-description = "eds torch stuff"
+description = "eds utilities"
 homepage = "https://github.com/ezhang7423/eztils"
 license = "MIT"
 name = "eztils"
@@ -30,12 +30,12 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-einops = "^0.6.0"
-loguru = "^0.6.0"
 python = "^3.8"
 rich = "^13.3.3"
-tqdm = "^4.65.0"
 numpy = "^1.24.3"
+loguru = "^0.7.0"
+einops = "^0.6.1"
+tqdm = "^4.65.0"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
@@ -43,7 +43,7 @@ black = "^23.3.0"
 coverage = "^7.2.2"
 coverage-badge = "^1.1.0"
 darglint = "^1.8.1"
-isort = {extras = ["colors"], version = "^5.12.0"}
+isort = { extras = ["colors"], version = "^5.12.0" }
 mypy = "^1.1.1"
 mypy-extensions = "^1.0.0"
 pre-commit = "^3.2.1"
