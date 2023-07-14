@@ -1,7 +1,7 @@
 from typing import Any, Dict, MutableMapping
 
 
-class AttriDict(dict): # type: ignore
+class AttriDict(dict):  # type: ignore
     """
     A dict which is accessible via attribute dot notation
     https://stackoverflow.com/a/41514848

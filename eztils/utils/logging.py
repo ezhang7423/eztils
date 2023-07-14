@@ -44,7 +44,7 @@ def inspect(obj, list_expand=3):
         m = re.search(r"'(.*?)'", str(type(obj)))
         if m is not None:
             return m.group(1)
-        return None  #         
+        return None  #
 
     def add_children(obj: object, root: Tree) -> None:
         if isinstance(obj, dict):
