@@ -2,22 +2,19 @@
 
 import sys
 
+# import often used modules
+from pathlib import Path
+
+from tqdm.auto import tqdm
+
+"""
+Get and set version of module
+"""
+
 if sys.version_info >= (3, 8):
     from importlib import metadata as importlib_metadata
 else:
     import importlib_metadata
-
-from pathlib import Path
-
-from einops import rearrange, reduce
-
-# import often used modules
-from torch import einsum, nn
-from torch.nn import functional as F
-from torchvision.utils import save_image
-from tqdm.auto import tqdm
-
-from .utils import *
 
 
 def get_version() -> str:
@@ -28,3 +25,7 @@ def get_version() -> str:
 
 
 version: str = get_version()
+__version__ = version
+
+
+from .default import *

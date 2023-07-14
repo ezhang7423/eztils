@@ -5,6 +5,9 @@ import pdb
 import numpy as np
 import torch
 
+from eztils.default import apply_dict
+from eztils.default.math import normalize
+
 DTYPE = torch.float
 DEVICE = "cuda:0"
 
@@ -57,19 +60,6 @@ def batchify(batch):
     return type(batch)(*batched_vals)
 
 
-def apply_dict(fn, d, *args, **kwargs):
-    return {k: fn(v, *args, **kwargs) for k, v in d.items()}
-
-
-def normalize(x):
-    """
-    scales `x` to [0, 1]
-    """
-    x = x - x.min()
-    x = x / x.max()
-    return x
-
-
 def to_img(x):
     normalized = normalize(x)
     array = to_np(normalized)
@@ -88,17 +78,12 @@ def batch_to_device(batch, device="cuda:0"):
     return type(batch)(*vals)
 
 
-def _to_str(num):
-    if num >= 1e6:
-        return f"{(num/1e6):.2f} M"
-    else:
-        return f"{(num/1e3):.2f} k"
-
-
 # -----------------------------------------------------------------------------#
 # ----------------------------- parameter counting ----------------------------#
 # -----------------------------------------------------------------------------#
 # https://github.com/allenai/allenact/blob/f00445e4ae8724ccc001b3300af5c56a7f882614/allenact/utils/tensor_utils.py#L1
+
+
 def to_device_recursively(
     input: Any, device: Union[str, torch.device, int], inplace: bool = True
 ) -> Any:
@@ -164,6 +149,12 @@ def param_to_module(param):
 
 
 def report_parameters(model, topk=10):
+    def _to_str(num):
+        if num >= 1e6:
+            return f"{(num/1e6):.2f} M"
+        else:
+            return f"{(num/1e3):.2f} k"
+
     counts = {k: p.numel() for k, p in model.named_parameters()}
     n_parameters = sum(counts.values())
     print(f"[ utils/arrays ] Total parameters: {_to_str(n_parameters)}")
