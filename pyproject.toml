@@ -1,0 +1,172 @@
+# Poetry pyproject.toml: https://python-poetry.org/docs/pyproject/
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry_core>=1.0.0"]
+
+[tool.poetry]
+authors = ["ezhang7423 <ezhang7423@student.palomar.edu>"]
+description = "eds torch stuff"
+homepage = "https://github.com/ezhang7423/eztils"
+license = "MIT"
+name = "eztils"
+readme = "README.md"
+repository = "https://github.com/ezhang7423/eztils"
+version = "0.3.6"
+
+# Keywords description https://python-poetry.org/docs/pyproject/#keywords
+keywords = [] #! Update me
+
+# Pypi classifiers: https://pypi.org/classifiers/
+classifiers = [
+  #! Update me
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+]
+
+[tool.poetry.dependencies]
+einops = "^0.6.0"
+loguru = "^0.6.0"
+python = "^3.8"
+rich = "^13.3.3"
+tqdm = "^4.65.0"
+numpy = "^1.24.3"
+
+[tool.poetry.group.dev.dependencies]
+bandit = "^1.7.5"
+black = "^23.3.0"
+coverage = "^7.2.2"
+coverage-badge = "^1.1.0"
+darglint = "^1.8.1"
+isort = {extras = ["colors"], version = "^5.12.0"}
+mypy = "^1.1.1"
+mypy-extensions = "^1.0.0"
+pre-commit = "^3.2.1"
+pydocstyle = "^6.3.0"
+pylint = "^2.17.1"
+pytest = "^7.2.2"
+pytest-cov = "^4.0.0"
+pytest-html = "^3.2.0"
+pyupgrade = "^3.3.1"
+ipython = "^8.11.0"
+
+
+[tool.black]
+# https://github.com/psf/black
+color = true
+line-length = 88
+target-version = ["py38"]
+
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | env
+    | venv
+)/
+'''
+
+[tool.isort]
+# https://github.com/timothycrosley/isort/
+line_length = 88
+py_version = 38
+
+color_output = true
+include_trailing_comma = true
+indent = 4
+known_typing = [
+  "typing",
+  "types",
+  "typing_extensions",
+  "mypy",
+  "mypy_extensions",
+]
+multi_line_output = 3
+profile = "black"
+sections = [
+  "FUTURE",
+  "TYPING",
+  "STDLIB",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER",
+]
+
+[tool.mypy]
+# https://mypy.readthedocs.io/en/latest/config_file.html#using-a-pyproject-toml-file
+color_output = true
+pretty = true
+python_version = 3.8
+show_traceback = true
+
+allow_redefinition = false
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+implicit_reexport = false
+no_implicit_optional = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+# https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
+# Directories that are not visited by pytest collector:
+doctest_optionflags = [
+  "NUMBER",
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+]
+norecursedirs = [
+  "hooks",
+  "*.egg",
+  ".eggs",
+  "dist",
+  "build",
+  "docs",
+  ".tox",
+  ".git",
+  "__pycache__",
+]
+
+# Extra options:
+addopts = [
+  "--strict-markers",
+  "--tb=short",
+  "--doctest-modules",
+  "--doctest-continue-on-failure",
+]
+
+[tool.coverage.run]
+source = ["tests"]
+
+[coverage.paths]
+source = "eztils"
+
+[coverage.run]
+branch = true
+
+[coverage.report]
+fail_under = 50
+show_missing = true
