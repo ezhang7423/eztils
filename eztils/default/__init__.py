@@ -25,3 +25,8 @@ def abspath():
 
 def apply_dict(fn, d, *args, **kwargs):
     return {k: fn(v, *args, **kwargs) for k, v in d.items()}
+
+
+from .logging import *
+from .math import *
+from .structures import *
