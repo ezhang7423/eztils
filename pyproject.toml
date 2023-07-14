@@ -31,7 +31,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 einops = "^0.6.0"
-loguru = "^0.6.0"
+loguru = ">=0.6,<0.8"
 python = "^3.8"
 rich = "^13.3.3"
 tqdm = "^4.65.0"
