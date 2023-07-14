@@ -1,5 +1,8 @@
-"""Tests for hello function."""
+"""Tests imports."""
 import pytest
+
+import eztils
+from eztils import abspath, apply_dict, cycle, default
 
 
 def hello(name: str) -> str:
