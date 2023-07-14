@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import numpy as np
-import torch
 from rich.console import Console
 from rich.tree import Tree
 
@@ -24,6 +23,13 @@ orange = print_creator("orange")
 
 
 def inspect(obj, list_expand=3):
+    try:
+        import torch
+
+        torch_exists = True
+    except ImportError:
+        torch_exists = False
+
     console = Console(record=True)
 
     class TreeWrapper:
@@ -59,7 +65,7 @@ def inspect(obj, list_expand=3):
                 add_children(obj[i], list_node)
             if len(obj) > list_expand:
                 list_node.add("...")
-        elif isinstance(obj, torch.Tensor):
+        elif torch_exists and isinstance(obj, torch.Tensor):
             root.add(f"tensor[[blue]{tuple(obj.shape)}; {obj.dtype}[/blue]]")
         else:
             repr = str(obj)
