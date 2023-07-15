@@ -56,6 +56,9 @@ pytest-html = "^3.2.0"
 pyupgrade = "^3.3.1"
 ipython = "^8.11.0"
 
+# [tool.poetry.extras]
+# torch = ["torchtyping"]
+# TODO can't run this because torchtyping depends on torch. if only there was a way to get --no-deps to work: https://github.com/python-poetry/poetry/issues/3377
 
 [tool.black]
 # https://github.com/psf/black

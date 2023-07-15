@@ -30,6 +30,17 @@ def set_gpu_mode(mode, gpu_id=0):
         torch.cuda.set_device(gpu_id)
 
 
+def activation_from_string(string):
+    if string == "identity":
+        return lambda x: x
+    return getattr(nn, string)()
+
+
+def soft_update_from_to(source, target, tau):
+    for target_param, param in zip(target.parameters(), source.parameters()):
+        target_param.data.copy_(target_param.data * (1.0 - tau) + param.data * tau)
+
+
 # helper functions
 
 
@@ -49,8 +60,10 @@ def seed_everything(seed):
         torch.cuda.manual_seed_all(seed)
 
 
+from .distributions import *
 from .lightning import *
 from .math import *
-from .model_wrappers import *
+from .modules import *
 from .parameters import *
+from .tensor_creators import *
 from .to import *

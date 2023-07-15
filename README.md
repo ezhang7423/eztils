@@ -1,8 +1,7 @@
 # eztils
 
-# TODO add torchtyping?
 # TODO add tests
-
+# TODO add serialization to cloud or huggingface dataset
 <div align="center">
 
 [![Build status](https://github.com/ezhang7423/eztils/workflows/build/badge.svg?branch=master&event=push)](https://github.com/ezhang7423/eztils/actions?query=workflow%3Abuild)
@@ -17,7 +16,7 @@
 
 eds utilities.
 
-torch, torchvision, and numpy are required but not specified, so as to be flexible with any environment this package is installed in.
+torch, torchvision, and torchtyping are required to use the torch package but not specified, so as to be flexible with any environment this package is installed in.
 
 </div>
 
