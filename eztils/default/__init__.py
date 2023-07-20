@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import inspect as inspect_
 import os
 import sys
@@ -71,10 +72,12 @@ from beartype import beartype
 from beartype.door import die_if_unbearable  # <-- like "assert isinstance(...)"
 from beartype.door import is_bearable  # <-------- like "isinstance(...)"
 from beartype.vale import Is
+enforced_dataclass = beartype(dataclass)
+frozen_enforced_dataclass = beartype(dataclass(frozen=True))
+
 
 from .dict_operations import *
 from .itertools import *
 from .logging import *
 from .math import *
 from .structures import *
-from .typing_validator import *
