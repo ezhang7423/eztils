@@ -1,6 +1,6 @@
-"""eds utilities"""
-
-# import often used modules
+"""
+import often used modules
+"""
 import random
 from pathlib import Path
 
@@ -8,11 +8,14 @@ import numpy as np
 import torch
 from einops import rearrange as rea
 from einops import reduce
-from torch import einsum, nn
+from jaxtyping import Bool, Float, Float16, Float32, Int
+from torch import einsum, nn, tensor
 from torch.nn import functional as F
 from torchvision.utils import save_image
 
-# globals
+"""
+globals
+"""
 USE_GPU = False
 DTYPE = torch.float
 GPU_ID = 0
@@ -41,7 +44,9 @@ def soft_update_from_to(source, target, tau):
         target_param.data.copy_(target_param.data * (1.0 - tau) + param.data * tau)
 
 
-# helper functions
+"""
+helper functions
+"""
 
 
 def seed_everything(seed):

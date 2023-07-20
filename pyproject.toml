@@ -11,7 +11,7 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.3"
+version = "0.4.4"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = [] #! Update me
@@ -37,6 +37,8 @@ numpy = "^1.24.3"
 loguru = "^0.7.0"
 einops = "^0.6.1"
 tqdm = "^4.65.0"
+ezjaxtyping = { version = "^0.2.20", optional = true }
+beartype = "^0.14.1"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
@@ -56,9 +58,10 @@ pytest-html = "^3.2.0"
 pyupgrade = "^3.3.1"
 ipython = "^8.11.0"
 
-# [tool.poetry.extras]
-# torch = ["torchtyping"]
-# TODO can't run this because torchtyping depends on torch. if only there was a way to get --no-deps to work: https://github.com/python-poetry/poetry/issues/3377
+
+[tool.poetry.extras]
+torch = ["ezjaxtyping"]
+
 
 [tool.black]
 # https://github.com/psf/black

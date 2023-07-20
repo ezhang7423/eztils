@@ -1,7 +1,5 @@
 # eztils
 
-# TODO add tests
-# TODO add serialization to cloud or huggingface dataset
 <div align="center">
 
 [![Build status](https://github.com/ezhang7423/eztils/workflows/build/badge.svg?branch=master&event=push)](https://github.com/ezhang7423/eztils/actions?query=workflow%3Abuild)

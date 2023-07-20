@@ -3,6 +3,10 @@ import os
 import sys
 from inspect import getsourcefile, isfunction
 
+"""
+miscellaneous functions that are often used
+"""
+
 
 def default(val, d):
     """If val exists, return it. Otherwise, return d"""
@@ -59,8 +63,18 @@ def query_yes_no(question, default="yes"):
             sys.stdout.write("Please respond with 'yes' or 'no' " "(or 'y' or 'n').\n")
 
 
+"""
+often used modules
+"""
+# beartype
+from beartype import beartype
+from beartype.door import die_if_unbearable  # <-- like "assert isinstance(...)"
+from beartype.door import is_bearable  # <-------- like "isinstance(...)"
+from beartype.vale import Is
+
 from .dict_operations import *
 from .itertools import *
 from .logging import *
 from .math import *
 from .structures import *
+from .typing_validator import *
