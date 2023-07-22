@@ -1,7 +1,7 @@
-from dataclasses import dataclass
 import inspect as inspect_
 import os
 import sys
+from dataclasses import dataclass
 from inspect import getsourcefile, isfunction
 
 """
@@ -72,6 +72,7 @@ from beartype import beartype
 from beartype.door import die_if_unbearable  # <-- like "assert isinstance(...)"
 from beartype.door import is_bearable  # <-------- like "isinstance(...)"
 from beartype.vale import Is
+
 enforced_dataclass = beartype(dataclass)
 frozen_enforced_dataclass = beartype(dataclass(frozen=True))
 
