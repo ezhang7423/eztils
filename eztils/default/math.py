@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from numbers import Number
-
+import numpy as np
 
 def normalize(x):
     """

@@ -4,7 +4,6 @@ import numpy as np
 import torch
 
 from eztils import normalize
-from eztils.torch import DEVICE, DTYPE
 
 
 def to_np(x):
@@ -28,6 +27,8 @@ def to_img(x: torch.Tensor):
 
 
 def to_torch(x, dtype=None, device=None):
+    from eztils.torch import DEVICE, DTYPE
+    
     dtype = dtype or DTYPE
     device = device or DEVICE
     if type(x) is dict:
@@ -39,8 +40,11 @@ def to_torch(x, dtype=None, device=None):
 
 
 def to_device(
-    input: Any, device: Union[str, torch.device, int] = DEVICE, inplace: bool = True
+    input: Any, device: Union[str, torch.device, int] = None, inplace: bool = True
 ) -> Any:
+    from eztils.torch import DEVICE
+    device = device or DEVICE
+    
     """Recursively places tensors on the appropriate device."""
     if input is None:
         return input
