@@ -27,7 +27,7 @@ def copyanything(src, dst):
             shutil.copy(src, dst)
         else: raise
 
-def generate_snapshot(root: str, dest_path: str):
+def copy_git_repo(root: str, dest_path: str):
     """Given a destination path, copy the local root dir to the path.
     This function can be used to generate a snapshot of the repo so that the
     exactly same code status will be recovered when later playing a trained
@@ -56,6 +56,9 @@ def generate_snapshot(root: str, dest_path: str):
         # Create necessary directories in destination
         dest_file.parent.mkdir(parents=True, exist_ok=True)
         
+        src = root_path / src_file
+        if not src.exists(): continue # ignore deleted files that were listed by git ls-files
+        
         # Copy file from source to destination
         copyanything(root_path / src_file, dest_file)
     
@@ -66,9 +69,16 @@ def generate_snapshot(root: str, dest_path: str):
     submodules = get_submodules(root_repo)
 
     for submodule in submodules:
-        # Call generate_snapshot recursively on the submodule
-        generate_snapshot(submodule.working_tree_dir, dest_path / Path(submodule.working_tree_dir).relative_to(root_path))
+        # Call copy_git_repo recursively on the submodule
+        copy_git_repo(submodule.working_tree_dir, dest_path / Path(submodule.working_tree_dir).relative_to(root_path))
 
+def generate_snapshot(root: str, dest_path: str):
+    copy_git_repo(root, dest_path)
+    dest_path = Path(dest_path)
+    
+    root_repo = Repo(root)
+    submodules = get_submodules_recursively(root_repo)
+    
     git_infos = [get_git_info(i.working_tree_dir) for i in [root_repo] + submodules]
     for (directory, code_diff, code_diff_staged, commit_hash, branch_name) in git_infos:
         directory_path = Path(directory)
@@ -87,12 +97,14 @@ def generate_snapshot(root: str, dest_path: str):
             f.write(f"git hash: {commit_hash}\n")
             f.write(f"git branch name: {branch_name}\n\n")
 
-def get_submodules(root: Repo):
-    ret = [root]
-    for i in root.submodules:
-        ret += get_submodules(Repo(Path(root.working_tree_dir) / i.path))
-    return ret[1:]
+def get_submodules_recursively(root: Repo):
+    ret = []
+    for i in get_submodules(root):        
+        ret += [i] + get_submodules_recursively(i)
+    return ret
     
+def get_submodules(root: Repo):
+    return [Repo(Path(root.working_tree_dir) / i.path) for i in root.submodules]
         
 
 def get_git_info(dir):
