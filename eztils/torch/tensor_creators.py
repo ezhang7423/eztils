@@ -9,10 +9,11 @@ from eztils import default
 def device_dtype_decorator(func):
     def wrapper(*args, torch_device=None, **kwargs):
         from eztils.torch import DEVICE, DTYPE
+
         torch_device = default(torch_device, DEVICE)
         torch_dtype = default(kwargs.get("dtype"), DTYPE)
-        kwargs.pop('device', None)
-        kwargs.pop('dtype', None)
+        kwargs.pop("device", None)
+        kwargs.pop("dtype", None)
         return func(*args, **kwargs, device=torch_device, dtype=torch_dtype)
 
     return wrapper
