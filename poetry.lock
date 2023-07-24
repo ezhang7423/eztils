@@ -1335,6 +1335,23 @@ files = [
 ]
 
 [[package]]
+name = "varname"
+version = "0.11.2"
+description = "Dark magics about variable names in python."
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "varname-0.11.2-py3-none-any.whl", hash = "sha256:0b251b7a5a470cfa32e276ce69856f5b52250bb2d955fdb80328255727bc85d0"},
+    {file = "varname-0.11.2.tar.gz", hash = "sha256:63338d0ff2420529353ba33120d980981d229e872ea1e3d191d414c540b51b80"},
+]
+
+[package.dependencies]
+executing = ">=1.2,<2.0"
+
+[package.extras]
+all = ["asttokens (==2.*)", "pure_eval (==0.*)"]
+
+[[package]]
 name = "virtualenv"
 version = "20.24.1"
 description = "Virtual Python Environment builder"
@@ -1484,4 +1501,4 @@ torch = ["ezjaxtyping"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "078cc0299aafc77e3b6ea0ae928e8e69056ca5b77e79b543c57e2547444c41d8"
+content-hash = "d5412543a0e8156d462fca1fb678a4401732c079d502a91ba784b6cb1d148442"

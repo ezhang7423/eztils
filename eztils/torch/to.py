@@ -1,5 +1,7 @@
 from typing import Any, Union
 
+import functools
+
 import numpy as np
 import torch
 
@@ -92,3 +94,6 @@ def to_device(
         raise NotImplementedError(
             f"Sorry, value of type {type(input)} is not supported."
         )
+
+
+to_cpu = functools.partial(to_device, device="cpu")

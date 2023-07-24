@@ -81,4 +81,5 @@ from .dict_operations import *
 from .itertools import *
 from .logging import *
 from .math import *
+from .serialization import *
 from .structures import *

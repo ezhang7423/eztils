@@ -2,7 +2,7 @@
 import often used modules
 """
 import random
-from pathlib import Path
+from functools import partial
 
 import numpy as np
 import torch
@@ -16,6 +16,8 @@ except RuntimeError:  # python < 3.9
 from torch import einsum, nn, tensor
 from torch.nn import functional as F
 from torchvision.utils import save_image
+
+from eztils import load, save
 
 """
 globals
@@ -68,6 +70,10 @@ def seed_everything(seed):
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
+
+save = partial(save, save_fn=torch.save)
+torch.load = partial(torch.load, map_location="cpu")
+load = partial(load, load_fn=torch.load)
 
 from .distributions import *
 from .lightning import *

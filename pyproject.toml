@@ -11,14 +11,13 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.7"
+version = "0.4.71"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
-keywords = [] #! Update me
+keywords = []
 
 # Pypi classifiers: https://pypi.org/classifiers/
 classifiers = [
-  #! Update me
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
@@ -39,6 +38,7 @@ numpy = "^1.24.3"
 python = "^3.8"
 rich = "^13.3.3"
 tqdm = "^4.65.0"
+varname = "^0.11.2"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
