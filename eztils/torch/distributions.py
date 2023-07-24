@@ -14,7 +14,6 @@ from torch.distributions import Independent as TorchIndependent
 from torch.distributions import Normal as TorchNormal
 from torch.distributions import kl_divergence
 from torch.distributions.utils import _sum_rightmost
-from torchtyping import TensorType
 
 from eztils.default.math import create_stats_ordered_dict
 from eztils.torch.math import atanh
@@ -225,9 +224,9 @@ class TanhGaussianMixture(TorchDistributionWrapper):
 
     def __init__(
         self,
-        mean: TensorType["batch", "num_gaussians", "action_dim"],
-        std: TensorType["batch", "num_gaussians", "action_dim"],
-        weights: TensorType["batch", "num_gaussians"],
+        mean,  #: TensorType["batch", "num_gaussians", "action_dim"],
+        std,  #: TensorType["batch", "num_gaussians", "action_dim"],
+        weights,  #: TensorType["batch", "num_gaussians"],
     ):
         if len(mean.shape) == 2:
             mean = mean.unsqueeze(dim=0)
@@ -356,9 +355,9 @@ class TanhGaussianMixture(TorchDistributionWrapper):
 class GaussianMixture(TanhGaussianMixture):
     def __init__(
         self,
-        mean: TensorType["batch", "num_gaussians", "action_dim"],
-        std: TensorType["batch", "num_gaussians", "action_dim"],
-        weights: TensorType["batch", "num_gaussians"],
+        mean,  #: TensorType["batch", "num_gaussians", "action_dim"],
+        std,  #: TensorType["batch", "num_gaussians", "action_dim"],
+        weights,  #: TensorType["batch", "num_gaussians"],
     ):
         super().__init__(mean, std, weights)
 
