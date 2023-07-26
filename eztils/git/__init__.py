@@ -23,7 +23,7 @@ GitInfo = namedtuple(
 
 def copyanything(src, dst):
     try:
-        shutil.copytree(src, dst)
+        shutil.copytree(src, dst, ignore=shutil.ignore_patterns('lfs'))
     except OSError as exc:  # python >2.5
         if exc.errno in (errno.ENOTDIR, errno.EINVAL):
             shutil.copy(src, dst)
@@ -31,7 +31,7 @@ def copyanything(src, dst):
             raise
 
 
-def copy_git_repo(root: str, dest_path: str):
+def copy_git_repo(root: str, dest_path: str, exclude: list = None):
     """Given a destination path, copy the local root dir to the path.
     This function can be used to generate a snapshot of the repo so that the
     exactly same code status will be recovered when later playing a trained
@@ -52,8 +52,14 @@ def copy_git_repo(root: str, dest_path: str):
 
     # Create the destination directory if it doesn't exist
     dest_path.mkdir(parents=True, exist_ok=True)
-
     # Copy files to destination, preserving directory structure
+
+    # remove excluded
+    if exclude is not None:
+        for e in exclude:
+            if e in files:
+                files.remove(e)
+        
     for src_file in files:
         src_file = Path(src_file)
         dest_file = dest_path / src_file
@@ -72,17 +78,18 @@ def copy_git_repo(root: str, dest_path: str):
     # Recursively process submodules
     root_repo = Repo(root)
     submodules = get_submodules(root_repo)
-
     for submodule in submodules:
         # Call copy_git_repo recursively on the submodule
+        if any([e in submodule.working_tree_dir for e in exclude]):
+            continue
         copy_git_repo(
             submodule.working_tree_dir,
             dest_path / Path(submodule.working_tree_dir).relative_to(root_path),
         )
 
 
-def generate_snapshot(root: str, dest_path: str):
-    copy_git_repo(root, dest_path)
+def generate_snapshot(root: str, dest_path: str, exclude: list= None):
+    copy_git_repo(root, dest_path, exclude=exclude)
     dest_path = Path(dest_path)
 
     root_repo = Repo(root)
