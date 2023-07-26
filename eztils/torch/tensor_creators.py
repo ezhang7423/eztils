@@ -7,10 +7,10 @@ from eztils import default
 
 
 def device_dtype_decorator(func):
-    def wrapper(*args, torch_device=None, **kwargs):
+    def wrapper(*args, **kwargs):
         from eztils.torch import DEVICE, DTYPE
 
-        torch_device = default(torch_device, DEVICE)
+        torch_device = default(kwargs.get("device"), DEVICE)
         torch_dtype = default(kwargs.get("dtype"), DTYPE)
         kwargs.pop("device", None)
         kwargs.pop("dtype", None)
@@ -19,9 +19,14 @@ def device_dtype_decorator(func):
     return wrapper
 
 
-@device_dtype_decorator
-def from_numpy(*args, **kwargs):
-    return torch.from_numpy(*args, **kwargs)
+# torch.from_numpy doesn't support kwargs
+def from_numpy(np_array, device=None, dtype=None):
+    from eztils.torch import DEVICE, DTYPE
+
+    torch_device = default(device, DEVICE)
+    torch_dtype = default(dtype, DTYPE)
+
+    return torch.from_numpy(np_array).to(device=torch_device, dtype=torch_dtype)
 
 
 @device_dtype_decorator

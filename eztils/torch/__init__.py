@@ -75,6 +75,11 @@ save = partial(save, save_fn=torch.save)
 torch.load = partial(torch.load, map_location="cpu")
 load = partial(load, load_fn=torch.load)
 
+
+def identity(x):
+    return x
+
+
 from .distributions import *
 from .lightning import *
 from .math import *

@@ -23,7 +23,7 @@ GitInfo = namedtuple(
 
 def copyanything(src, dst):
     try:
-        shutil.copytree(src, dst, ignore=shutil.ignore_patterns('lfs'))
+        shutil.copytree(src, dst, ignore=shutil.ignore_patterns("lfs"))
     except OSError as exc:  # python >2.5
         if exc.errno in (errno.ENOTDIR, errno.EINVAL):
             shutil.copy(src, dst)
@@ -59,7 +59,7 @@ def copy_git_repo(root: str, dest_path: str, exclude: list = None):
         for e in exclude:
             if e in files:
                 files.remove(e)
-        
+
     for src_file in files:
         src_file = Path(src_file)
         dest_file = dest_path / src_file
@@ -88,7 +88,7 @@ def copy_git_repo(root: str, dest_path: str, exclude: list = None):
         )
 
 
-def generate_snapshot(root: str, dest_path: str, exclude: list= None):
+def generate_snapshot(root: str, dest_path: str, exclude: list = None):
     copy_git_repo(root, dest_path, exclude=exclude)
     dest_path = Path(dest_path)
 
