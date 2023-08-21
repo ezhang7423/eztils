@@ -433,7 +433,7 @@ license = ["ukkonen"]
 name = "importlib-metadata"
 version = "6.8.0"
 description = "Read metadata from Python packages"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "importlib_metadata-6.8.0-py3-none-any.whl", hash = "sha256:3ebb78df84a805d7698245025b975d9d67053cd94c79245ba4b3eb694abe68bb"},
@@ -1306,21 +1306,21 @@ test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
 
 [[package]]
 name = "typeguard"
-version = "4.0.0"
+version = "4.1.2"
 description = "Run-time type checker for Python"
-optional = true
+optional = false
 python-versions = ">=3.7.4"
 files = [
-    {file = "typeguard-4.0.0-py3-none-any.whl", hash = "sha256:c4a40af0ba8a41077221271b46d0a6d8d46045443e4d887887c69254ca861952"},
-    {file = "typeguard-4.0.0.tar.gz", hash = "sha256:194fb3dbcb06ea9caf7088f3befee014de57961689f9c859ac5239b1ef61d987"},
+    {file = "typeguard-4.1.2-py3-none-any.whl", hash = "sha256:e00775920d4c91e93a0db0ed473ecda9cfaca578aed3ce0ed3ba7f3cc38eab9c"},
+    {file = "typeguard-4.1.2.tar.gz", hash = "sha256:3be187945f9ef5a9f6d7a926dfe54babb7dfd807085ce05f9a5e8735f2487990"},
 ]
 
 [package.dependencies]
 importlib-metadata = {version = ">=3.6", markers = "python_version < \"3.10\""}
-typing-extensions = {version = ">=4.4.0", markers = "python_version < \"3.11\""}
+typing-extensions = {version = ">=4.7.0", markers = "python_version < \"3.12\""}
 
 [package.extras]
-doc = ["packaging", "sphinx-autodoc-typehints (>=1.2.0)", "sphinx-rtd-theme"]
+doc = ["Sphinx (<7)", "packaging", "sphinx-autodoc-typehints (>=1.2.0)", "sphinx-rtd-theme"]
 test = ["mypy (>=1.2.0)", "pytest (>=7)"]
 
 [[package]]
@@ -1484,7 +1484,7 @@ files = [
 name = "zipp"
 version = "3.16.2"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "zipp-3.16.2-py3-none-any.whl", hash = "sha256:679e51dd4403591b2d6838a48de3d283f3d188412a9782faadf845f298736ba0"},
