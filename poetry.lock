@@ -83,13 +83,13 @@ yaml = ["PyYAML"]
 
 [[package]]
 name = "beartype"
-version = "0.15.0"
+version = "0.16.1"
 description = "Unbearably fast runtime type checking in pure Python."
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "beartype-0.15.0-py3-none-any.whl", hash = "sha256:52cd2edea72fdd84e4e7f8011a9e3007bf0125c3d6d7219e937b9d8868169177"},
-    {file = "beartype-0.15.0.tar.gz", hash = "sha256:2af6a8d8a7267ccf7d271e1a3bd908afbc025d2a09aa51123567d7d7b37438df"},
+    {file = "beartype-0.16.1-py3-none-any.whl", hash = "sha256:d86f5472e5e6ff8f643da28ff537469d57b01505ad211aee007c49c5a7de2a05"},
+    {file = "beartype-0.16.1.tar.gz", hash = "sha256:b3bfb911ed6af91aeada851a44b4d564c23662869b5391d71fe3648f2c643b6d"},
 ]
 
 [package.extras]
@@ -429,7 +429,7 @@ license = ["ukkonen"]
 name = "importlib-metadata"
 version = "6.8.0"
 description = "Read metadata from Python packages"
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "importlib_metadata-6.8.0-py3-none-any.whl", hash = "sha256:3ebb78df84a805d7698245025b975d9d67053cd94c79245ba4b3eb694abe68bb"},
@@ -1393,7 +1393,7 @@ test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
 name = "typeguard"
 version = "4.1.5"
 description = "Run-time type checker for Python"
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "typeguard-4.1.5-py3-none-any.whl", hash = "sha256:8923e55f8873caec136c892c3bed1f676eae7be57cdb94819281b3d3bc9c0953"},
@@ -1569,7 +1569,7 @@ files = [
 name = "zipp"
 version = "3.16.2"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "zipp-3.16.2-py3-none-any.whl", hash = "sha256:679e51dd4403591b2d6838a48de3d283f3d188412a9782faadf845f298736ba0"},
@@ -1586,4 +1586,4 @@ torch = ["ezjaxtyping"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "f24b82a301e2e720e03db7c0588ec5f5a2f242306743ee16c5ecedf68a226523"
+content-hash = "ad1490e6f3d45378a8b7cb8e06a2199149657e0ecbd6cbe58e9e1979a1a588a2"
