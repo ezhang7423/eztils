@@ -303,13 +303,13 @@ files = [
 
 [[package]]
 name = "einops"
-version = "0.6.1"
+version = "0.7.0"
 description = "A new flavour of deep learning operations"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "einops-0.6.1-py3-none-any.whl", hash = "sha256:99149e46cc808956b174932fe563d920db4d6e5dadb8c6ecdaa7483b7ef7cfc3"},
-    {file = "einops-0.6.1.tar.gz", hash = "sha256:f95f8d00f4ded90dbc4b19b6f98b177332614b0357dde66997f3ae5d474dc8c8"},
+    {file = "einops-0.7.0-py3-none-any.whl", hash = "sha256:0f3096f26b914f465f6ff3c66f5478f9a5e380bb367ffc6493a68143fbbf1fd1"},
+    {file = "einops-0.7.0.tar.gz", hash = "sha256:b2b04ad6081a3b227080c9bf5e3ace7160357ff03043cd66cc5b2319eb7031d1"},
 ]
 
 [[package]]
@@ -1450,4 +1450,4 @@ torch = ["ezjaxtyping"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "8d5c0e3b2289cb5553a3d6ba072d59e23eb09d207231ceb5315c7e2f89a61a38"
+content-hash = "73e3752293cc21bca001550697412be2c67457cbf719b840f1862a09ab509dc7"
