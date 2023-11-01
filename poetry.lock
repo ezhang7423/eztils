@@ -79,13 +79,13 @@ yaml = ["PyYAML"]
 
 [[package]]
 name = "beartype"
-version = "0.15.0"
+version = "0.16.4"
 description = "Unbearably fast runtime type checking in pure Python."
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "beartype-0.15.0-py3-none-any.whl", hash = "sha256:52cd2edea72fdd84e4e7f8011a9e3007bf0125c3d6d7219e937b9d8868169177"},
-    {file = "beartype-0.15.0.tar.gz", hash = "sha256:2af6a8d8a7267ccf7d271e1a3bd908afbc025d2a09aa51123567d7d7b37438df"},
+    {file = "beartype-0.16.4-py3-none-any.whl", hash = "sha256:64865952f9dff1e17f22684b3c7286fc79754553b47eaefeb1286224ae8c1bd9"},
+    {file = "beartype-0.16.4.tar.gz", hash = "sha256:1ada89cf2d6eb30eb6e156eed2eb5493357782937910d74380918e53c2eae0bf"},
 ]
 
 [package.extras]
@@ -1450,4 +1450,4 @@ torch = ["ezjaxtyping"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "c029f0da84c4c3dcda836889b18ba57dc0edacc771c097cdff85041ba8a5e39c"
+content-hash = "ad1490e6f3d45378a8b7cb8e06a2199149657e0ecbd6cbe58e9e1979a1a588a2"
