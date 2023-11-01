@@ -31,7 +31,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 beartype = ">=0.14.1,<0.17.0"
-einops = "^0.6.1"
+einops = ">=0.6.1,<0.8.0"
 ezjaxtyping = {version = "^0.2.20", optional = true}
 loguru = "^0.7.0"
 numpy = "^1.24.3"
