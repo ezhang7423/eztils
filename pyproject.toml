@@ -11,7 +11,7 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.73"
+version = "0.4.74"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []
