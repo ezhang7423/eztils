@@ -38,7 +38,7 @@ numpy = "^1.24.3"
 python = "^3.8"
 rich = "^13.3.3"
 tqdm = "^4.65.0"
-varname = "^0.11.2"
+varname = ">=0.11.2,<0.13.0"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
