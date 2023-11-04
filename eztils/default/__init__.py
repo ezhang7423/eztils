@@ -3,6 +3,7 @@ import os
 import sys
 from dataclasses import dataclass
 from inspect import getsourcefile, isfunction
+from pathlib import Path
 
 """
 miscellaneous functions that are often used
@@ -27,6 +28,12 @@ def abspath():
     # return os.path.dirname(inspect.stack()[1][1]) # type: ignore
     # return os.path.dirname(getsourcefile(lambda:0)) # type: ignore
     return os.path.dirname(getsourcefile(inspect_.stack()[1][0]))  # type: ignore
+
+def setup_path(path: str) -> Path:
+    """Create path if not exist."""
+    path = Path(path).resolve()
+    path.mkdir(parents=True, exist_ok=True)
+    return path
 
 
 def apply_dict(fn, d, *args, **kwargs):

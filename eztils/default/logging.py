@@ -81,6 +81,6 @@ def inspect(obj, list_expand=3):
 def datestr(full=True):
     now = datetime.now()
     if full:
-        return f'{now.strftime("%Y-%m-%d")}-{now.strftime("%H-%M-%S")}'
+        return f'{now.strftime("%Y-%m-%d")}---{now.strftime("%H-%M-%S")}'
     else:
-        return f'{now.strftime("%Y-%m-%d")}-{now.strftime("%H-%M")}'
+        return f'{now.strftime("%Y-%m-%d")}---{now.strftime("%H-%M")}'
