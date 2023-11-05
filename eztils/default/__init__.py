@@ -29,6 +29,7 @@ def abspath():
     # return os.path.dirname(getsourcefile(lambda:0)) # type: ignore
     return os.path.dirname(getsourcefile(inspect_.stack()[1][0]))  # type: ignore
 
+
 def setup_path(path: str) -> Path:
     """Create path if not exist."""
     path = Path(path).resolve()
