@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 import functools
 
@@ -61,7 +61,9 @@ def to_torch(x, dtype=None, device=None):
 
 
 def to_device(
-    input: Any, device: Union[str, torch.device, int] = None, inplace: bool = True
+    input: Any,
+    device: Union[str, torch.device, int] = None,
+    inplace: Optional[bool] = True,
 ) -> Any:
     """
     Recursively places tensors on the appropriate device.
@@ -73,6 +75,9 @@ def to_device(
 
     Returns:
         Any: The tensor or collection of tensors moved to the device.
+
+    Raises:
+        NotImplementedError: If the input is of a type that is not supported.
     """
     from eztils.torch import DEVICE
 
