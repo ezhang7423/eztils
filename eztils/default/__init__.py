@@ -11,7 +11,13 @@ miscellaneous functions that are often used
 
 
 def default(val, d):
-    """If val exists, return it. Otherwise, return d"""
+    """
+    If val exists, return it. Otherwise, return d
+
+    :param val: The value to check
+    :param d: The default value to return if val is None
+    :return: val if it exists, otherwise d
+    """
     if val is not None:
         return val
     return d() if isfunction(d) else d
@@ -23,21 +29,52 @@ def cycle(dl):
 
 
 def abspath():
+    """
+    Returns the absolute path of the directory containing the caller module.
+
+    :return: The absolute path of the directory containing the caller module.
+    :rtype: str
+
     # https://stackoverflow.com/questions/16771894/python-nameerror-global-name-file-is-not-defined
     # https://docs.python.org/3/library/inspect.html#inspect.FrameInfo
     # return os.path.dirname(inspect.stack()[1][1]) # type: ignore
     # return os.path.dirname(getsourcefile(lambda:0)) # type: ignore
+    """
     return os.path.dirname(getsourcefile(inspect_.stack()[1][0]))  # type: ignore
 
 
+from pathlib import Path
+
+
 def setup_path(path: str) -> Path:
-    """Create path if not exist."""
+    """
+    Create path if it does not exist.
+
+    :param path: The path to be created.
+    :type path: str
+    :return: The created path.
+    :rtype: Path
+    """
     path = Path(path).resolve()
     path.mkdir(parents=True, exist_ok=True)
     return path
 
 
 def apply_dict(fn, d, *args, **kwargs):
+    """
+    Apply a function to each value in a dictionary and return a new dictionary with the results.
+
+    :param fn: The function to apply to each value in the dictionary.
+    :type fn: function
+    :param d: The dictionary to apply the function to.
+    :type d: dict
+    :param args: Additional positional arguments to pass to the function.
+    :type args: tuple
+    :param kwargs: Additional keyword arguments to pass to the function.
+    :type kwargs: dict
+    :return: A new dictionary with the results of applying the function to each value in the input dictionary.
+    :rtype: dict
+    """
     return {k: fn(v, *args, **kwargs) for k, v in d.items()}
 
 

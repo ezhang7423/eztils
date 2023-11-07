@@ -6,20 +6,41 @@ import numpy as np
 
 def normalize(x):
     """
-    scales `x` to [0, 1]
+    Normalize an array by scaling its values between 0 and 1.
+
+    :param x: The input array to be normalized.
+    :type x: numpy.ndarray
+    :return: The normalized array.
+    :rtype: numpy.ndarray
     """
     x = x - x.min()
     x = x / x.max()
     return x
 
 
-def create_stats_ordered_dict(  # TODO support tensors
+def create_stats_ordered_dict(
     name,
     data,
     stat_prefix=None,
     always_show_all_stats=True,
     exclude_max_min=False,
 ):
+    """
+    Create an ordered dictionary of statistics for the given data.
+
+    :param name: The name of the data.
+    :type name: str
+    :param data: The data to compute statistics for.
+    :type data: Union[Number, List[Number], Tuple[Number], np.ndarray]
+    :param stat_prefix: A prefix to add to the name of the data, defaults to None.
+    :type stat_prefix: Optional[str]
+    :param always_show_all_stats: Whether to always show all statistics, defaults to True.
+    :type always_show_all_stats: bool, optional
+    :param exclude_max_min: Whether to exclude the maximum and minimum values, defaults to False.
+    :type exclude_max_min: bool, optional
+    :return: An ordered dictionary of statistics for the given data.
+    :rtype: OrderedDict
+    """
     if stat_prefix is not None:
         name = f"{stat_prefix}{name}"
     if isinstance(data, Number):

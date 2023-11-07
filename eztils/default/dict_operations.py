@@ -25,8 +25,21 @@ def nested_dict_to_dot_map_dict(d, parent_key=""):
 
 def merge_recursive_dicts(a, b, path=None, ignore_duplicate_keys_in_second_dict=False):
     """
-    Merge two dicts that may have nested dicts.
+    Merge two dictionaries that may have nested dictionaries.
+
+    :param a: The first dictionary to merge.
+    :type a: dict
+    :param b: The second dictionary to merge.
+    :type b: dict
+    :param path: The path to the current key being merged, used for error reporting. Defaults to None.
+    :type path: list, optional
+    :param ignore_duplicate_keys_in_second_dict: Whether to ignore duplicate keys in the second dictionary. Defaults to False.
+    :type ignore_duplicate_keys_in_second_dict: bool, optional
+    :raises Exception: If there are duplicate keys and ignore_duplicate_keys_in_second_dict is False.
+    :return: The merged dictionary.
+    :rtype: dict
     """
+
     if path is None:
         path = []
     for key in b:
@@ -53,16 +66,25 @@ def merge_recursive_dicts(a, b, path=None, ignore_duplicate_keys_in_second_dict=
 
 def list_of_dicts__to__dict_of_lists(lst):
     """
-    ```
-    x = [
-        {'foo': 3, 'bar': 1},
-        {'foo': 4, 'bar': 2},
-        {'foo': 5, 'bar': 3},
-    ]
-    ppp.list_of_dicts__to__dict_of_lists(x)
-    # Output:
-    # {'foo': [3, 4, 5], 'bar': [1, 2, 3]}
-    ```
+    Convert a list of dictionaries into a dictionary of lists, where each key in the output dictionary
+    corresponds to a key in the input dictionaries, and each value in the output dictionary is a list
+    containing the values of that key in the input dictionaries.
+
+    :param lst: A list of dictionaries.
+    :type lst: list[dict]
+
+    :return: A dictionary of lists.
+    :rtype: dict
+
+    Example:
+    --------
+    >>> x = [
+    ...     {'foo': 3, 'bar': 1},
+    ...     {'foo': 4, 'bar': 2},
+    ...     {'foo': 5, 'bar': 3},
+    ... ]
+    >>> list_of_dicts__to__dict_of_lists(x)
+    {'foo': [3, 4, 5], 'bar': [1, 2, 3]}
     """
     if len(lst) == 0:
         return {}
@@ -76,6 +98,14 @@ def list_of_dicts__to__dict_of_lists(lst):
 
 
 def safe_json(data):
+    """
+    Check if a given data structure is JSON serializable.
+
+    :param data: The data structure to check.
+    :type data: Any
+    :return: True if the data structure is JSON serializable, False otherwise.
+    :rtype: bool
+    """
     if data is None:
         return True
     elif isinstance(data, (bool, int, float)):
@@ -90,8 +120,13 @@ def safe_json(data):
 def dict_to_safe_json(d, sort=False):
     """
     Convert each value in the dictionary into a JSON'able primitive.
-    :param d:
-    :return:
+
+    :param d: The dictionary to convert.
+    :type d: dict or collections.OrderedDict
+    :param sort: Whether to sort the resulting dictionary by key. Defaults to False.
+    :type sort: bool, optional
+    :return: A new dictionary with all values converted to JSON'able primitives.
+    :rtype: dict or collections.OrderedDict
     """
     if isinstance(d, collections.OrderedDict):
         new_d = collections.OrderedDict()

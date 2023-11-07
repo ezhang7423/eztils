@@ -63,6 +63,16 @@ def batch(iterable, n=1):
 
 
 def find_key_recursive(obj, key):
+    """
+    Recursively searches for a key in a nested dictionary.
+
+    :param obj: The dictionary to search in.
+    :type obj: dict
+    :param key: The key to search for.
+    :type key: Any
+    :return: The value associated with the key if found, otherwise None.
+    :rtype: Any
+    """
     if key in obj:
         return obj[key]
     for k, v in obj.items():

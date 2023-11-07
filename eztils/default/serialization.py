@@ -39,10 +39,30 @@ remove_shm_from_resource_tracker()
 
 
 def make_valid_python_var(varStr):
+    """
+    Replaces all non-alphanumeric characters in a string with underscores, and ensures that the resulting string is a valid Python variable name.
+
+    :param varStr: The string to convert to a valid Python variable name.
+    :type varStr: str
+    :return: The input string with non-alphanumeric characters replaced with underscores, and with any leading digits replaced with an underscore.
+    :rtype: str
+    """
     return re.sub(r"\W|^(?=\d)", "_", varStr)
 
 
 def save(var, folder=None, memory=False, save_fn=pickle.dump):
+    """
+    Save a variable to disk or shared memory.
+
+    :param var: The variable to be saved.
+    :type var: Any
+    :param folder: The folder where the variable should be saved. Defaults to current directory.
+    :type folder: str, optional
+    :param memory: Whether to save the variable to shared memory. Defaults to False.
+    :type memory: bool, optional
+    :param save_fn: The function to use for saving the variable. Defaults to pickle.dump.
+    :type save_fn: callable, optional
+    """
     folder = Path(folder or ".").absolute().resolve()
     try:
         varname = make_valid_python_var(argname("var"))
@@ -81,6 +101,19 @@ def save(var, folder=None, memory=False, save_fn=pickle.dump):
 
 
 def load(path, memory=False, load_fn=pickle.load, **kwargs):
+    """
+    Load a serialized object from a file or shared memory.
+
+    :param path: The path to the file or the name of the shared memory.
+    :type path: str
+    :param memory: If True, load from shared memory. Otherwise, load from file. Defaults to False.
+    :type memory: bool, optional
+    :param load_fn: The function to use for loading the serialized object. Defaults to pickle.load.
+    :type load_fn: callable, optional
+    :param kwargs: Additional keyword arguments to pass to the load function.
+    :return: The deserialized object.
+    :rtype: Any
+    """
     if not memory:
         return load_fn(path, **kwargs)
     else:

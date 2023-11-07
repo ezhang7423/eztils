@@ -9,6 +9,14 @@ from eztils import normalize
 
 
 def to_np(x):
+    """
+    Convert a tensor to a numpy array.
+
+    :param x: Input tensor.
+    :type x: torch.Tensor
+    :return: Numpy array.
+    :rtype: numpy.ndarray
+    """
     if torch.is_tensor(x):
         x = x.detach().cpu().numpy()
     return x
@@ -29,6 +37,18 @@ def to_img(x: torch.Tensor):
 
 
 def to_torch(x, dtype=None, device=None):
+    """
+    Converts a numpy array or a Python scalar to a PyTorch tensor.
+
+    Args:
+        x (numpy.ndarray, Python scalar): Input data to be converted to PyTorch tensor.
+        dtype (torch.dtype, optional): Data type of the resulting tensor. Defaults to None.
+        device (torch.device, optional): Device on which the tensor will be allocated. Defaults to None.
+
+    Returns:
+        torch.Tensor: A PyTorch tensor with the same data as the input.
+
+    """
     from eztils.torch import DEVICE, DTYPE
 
     dtype = dtype or DTYPE
@@ -37,13 +57,23 @@ def to_torch(x, dtype=None, device=None):
         return {k: to_torch(v, dtype, device) for k, v in x.items()}
     elif torch.is_tensor(x):
         return x.to(device).type(dtype)
-        # import pdb; pdb.set_trace()
     return torch.tensor(x, dtype=dtype, device=device)
 
 
 def to_device(
     input: Any, device: Union[str, torch.device, int] = None, inplace: bool = True
 ) -> Any:
+    """
+    Recursively places tensors on the appropriate device.
+
+    Args:
+        input (Any): The input tensor or collection of tensors to be moved to the device.
+        device (Union[str, torch.device, int], optional): The device to move the tensors to. Defaults to None.
+        inplace (bool, optional): Whether to perform the operation in place. Defaults to True.
+
+    Returns:
+        Any: The tensor or collection of tensors moved to the device.
+    """
     from eztils.torch import DEVICE
 
     device = device or DEVICE
@@ -96,4 +126,7 @@ def to_device(
         )
 
 
+"""
+Recursively places tensors on the CPU.
+"""
 to_cpu = functools.partial(to_device, device="cpu")

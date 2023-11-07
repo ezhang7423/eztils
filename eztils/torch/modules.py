@@ -64,6 +64,17 @@ class LayerNorm(nn.Module):
 
 
 class ParallelLayerNorm(LayerNorm):
+    """
+    A layer normalization module that applies layer normalization across multiple heads.
+
+    Args:
+        num_heads (int): The number of heads.
+        features (int): The number of features per head.
+        center (bool, optional): If True, add learnable bias parameter. Default: True.
+        scale (bool, optional): If True, add learnable scale parameter. Default: False.
+        eps (float, optional): A value added to the denominator for numerical stability. Default: 1e-6.
+    """
+
     def __init__(self, num_heads, features, center=True, scale=False, eps=0.000001):
         super().__init__(features * num_heads, center, scale, eps)
         self.num_heads = num_heads

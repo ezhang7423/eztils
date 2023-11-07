@@ -1,3 +1,5 @@
+from typing import List
+
 import errno
 import os
 import pickle
@@ -22,6 +24,14 @@ GitInfo = namedtuple(
 
 
 def copyanything(src, dst):
+    """
+    Copy a directory tree from `src` to `dst`, ignoring any files or directories named "lfs".
+
+    :param src: The path to the source directory.
+    :type src: str
+    :param dst: The path to the destination directory.
+    :type dst: str
+    """
     try:
         shutil.copytree(src, dst, ignore=shutil.ignore_patterns("lfs"))
     except OSError as exc:  # python >2.5
@@ -89,6 +99,16 @@ def copy_git_repo(root: str, dest_path: str, exclude: list = None):
 
 
 def generate_snapshot(root: str, dest_path: str, exclude: list = None):
+    """
+    Generate a snapshot of a git repository and its submodules.
+
+    :param root: The path to the root of the git repository.
+    :type root: str
+    :param dest_path: The path to the directory where the snapshot will be saved.
+    :type dest_path: str
+    :param exclude: A list of paths to exclude from the snapshot, defaults to None.
+    :type exclude: list, optional
+    """
     copy_git_repo(root, dest_path, exclude=exclude)
     dest_path = Path(dest_path)
 
@@ -119,17 +139,41 @@ def generate_snapshot(root: str, dest_path: str, exclude: list = None):
 
 
 def get_submodules_recursively(root: Repo):
+    """
+    Recursively retrieves all submodules of a given repository.
+
+    :param root: The root repository to retrieve submodules from.
+    :type root: Repo
+    :return: A list of all submodules of the root repository.
+    :rtype: list[Repo]
+    """
     ret = []
     for i in get_submodules(root):
         ret += [i] + get_submodules_recursively(i)
     return ret
 
 
-def get_submodules(root: Repo):
+def get_submodules(root: Repo) -> List[Repo]:
+    """
+    Returns a list of Repo objects representing the submodules of the given root repository.
+
+    :param root: The root repository.
+    :type root: Repo
+    :return: A list of Repo objects representing the submodules of the given root repository.
+    :rtype: List[Repo]
+    """
     return [Repo(Path(root.working_tree_dir) / i.path) for i in root.submodules]
 
 
 def get_git_info(dir):
+    """
+    Returns GitInfo object containing information about the git repository located at `dir`.
+
+    :param dir: Path to the git repository.
+    :type dir: str
+    :return: GitInfo object containing information about the git repository.
+    :rtype: GitInfo
+    """
     repo = Repo(dir)
     try:
         branch_name = repo.active_branch.name

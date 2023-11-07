@@ -29,6 +29,14 @@ DEVICE = None
 
 
 def set_gpu_mode(mode, gpu_id=0):
+    """
+    Sets the mode and GPU ID for PyTorch.
+
+    :param mode: A boolean indicating whether to use GPU or not.
+    :type mode: bool
+    :param gpu_id: The ID of the GPU to use, defaults to 0.
+    :type gpu_id: int, optional
+    """
     global USE_GPU
     global DEVICE
     global GPU_ID
@@ -40,12 +48,30 @@ def set_gpu_mode(mode, gpu_id=0):
 
 
 def activation_from_string(string):
+    """
+    Returns the activation function corresponding to the given string.
+
+    :param string: The name of the activation function to return.
+    :type string: str
+    :return: The activation function.
+    :rtype: function
+    """
     if string == "identity":
         return lambda x: x
     return getattr(nn, string)()
 
 
 def soft_update_from_to(source, target, tau):
+    """
+    Update the target model parameters with a fraction of the source model parameters.
+
+    :param source: The source model whose parameters will be used to update the target model.
+    :type source: torch.nn.Module
+    :param target: The target model whose parameters will be updated.
+    :type target: torch.nn.Module
+    :param tau: The fraction of the source model parameters to be used for updating the target model parameters.
+    :type tau: float
+    """
     for target_param, param in zip(target.parameters(), source.parameters()):
         target_param.data.copy_(target_param.data * (1.0 - tau) + param.data * tau)
 

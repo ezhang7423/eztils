@@ -8,6 +8,15 @@ console = Console()
 
 
 def print_creator(color):
+    """
+    Returns a function that prints text in the specified color.
+
+    :param color: The color to use for printing.
+    :type color: str
+    :return: A function that prints text in the specified color.
+    :rtype: function
+    """
+
     def print_creator_inner(*args, **kwargs):
         console.print(*args, **kwargs, style=color)
 
@@ -23,6 +32,16 @@ orange = print_creator("orange")
 
 
 def inspect(obj, list_expand=3):
+    """
+    Inspects the given object and prints a tree representation of its attributes and values.
+
+    :param obj: The object to inspect.
+    :type obj: object
+    :param list_expand: The maximum number of elements to expand in a list or numpy array, defaults to 3.
+    :type list_expand: int, optional
+    :return: None
+    :rtype: None
+    """
     try:
         import torch
 
@@ -44,15 +63,31 @@ def inspect(obj, list_expand=3):
                 return self.tree.add(label)  # type: ignore
 
     def type_fmt(obj):
+        """
+        Extracts the type name from an object's type and returns it as a string.
+
+        :param obj: The object whose type name is to be extracted.
+        :type obj: Any
+        :return: The name of the object's type.
+        :rtype: str
+        """
         # get string within single quotes regex
         import re
 
         m = re.search(r"'(.*?)'", str(type(obj)))
         if m is not None:
             return m.group(1)
-        return None  #
+        return None
 
     def add_children(obj: object, root: Tree) -> None:
+        """
+        Recursively adds child nodes to a given root node based on the type of the input object.
+
+        :param obj: The object to add child nodes for.
+        :type obj: object
+        :param root: The root node to add child nodes to.
+        :type root: Tree
+        """
         if isinstance(obj, dict):
             dict_node = root.add(f"dict")
             for key in obj.keys():
@@ -79,6 +114,14 @@ def inspect(obj, list_expand=3):
 
 
 def datestr(full=True):
+    """
+    Returns a formatted date string.
+
+    :param full: If True, includes seconds in the time. If False, only includes hours and minutes. Defaults to True.
+    :type full: bool, optional
+    :return: A string representing the current date and time in the format 'YYYY-MM-DD---HH-MM-SS' or 'YYYY-MM-DD---HH-MM', depending on the value of `full`.
+    :rtype: str
+    """
     now = datetime.now()
     if full:
         return f'{now.strftime("%Y-%m-%d")}---{now.strftime("%H-%M-%S")}'

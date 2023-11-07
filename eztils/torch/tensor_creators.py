@@ -7,6 +7,15 @@ from eztils import default
 
 
 def device_dtype_decorator(func):
+    """
+    A decorator function that adds device and dtype parameters to a given function.
+
+    :param func: The function to be decorated.
+    :type func: function
+    :return: The decorated function.
+    :rtype: function
+    """
+
     def wrapper(*args, **kwargs):
         from eztils.torch import DEVICE, DTYPE
 
@@ -21,6 +30,18 @@ def device_dtype_decorator(func):
 
 # torch.from_numpy doesn't support kwargs
 def from_numpy(np_array, device=None, dtype=None):
+    """
+    Create a PyTorch tensor from a numpy array.
+
+    :param np_array: The numpy array to be converted to a PyTorch tensor.
+    :type np_array: numpy.ndarray
+    :param device: The device on which the tensor will be created. If None, the default device will be used.
+    :type device: torch.device, optional
+    :param dtype: The data type of the tensor. If None, the default data type will be used.
+    :type dtype: torch.dtype, optional
+    :return: A PyTorch tensor created from the input numpy array.
+    :rtype: torch.Tensor
+    """
     from eztils.torch import DEVICE, DTYPE
 
     torch_device = default(device, DEVICE)
