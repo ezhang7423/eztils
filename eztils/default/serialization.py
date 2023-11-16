@@ -1,3 +1,4 @@
+import dataclasses
 import os
 import pickle
 import re
