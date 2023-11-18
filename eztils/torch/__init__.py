@@ -102,9 +102,9 @@ torch.load = partial(torch.load, map_location="cpu")
 load = partial(load, load_fn=torch.load)
 
 
-
 def get_best_cuda() -> int:
-    import pynvml, numpy as np
+    import numpy as np
+    import pynvml
 
     pynvml.nvmlInit()
     deviceCount = pynvml.nvmlDeviceGetCount()
@@ -117,7 +117,6 @@ def get_best_cuda() -> int:
     best_device_index = np.argmax(deviceMemory)
     print("best gpu:", best_device_index)
     return best_device_index.item()
-
 
 
 def identity(x):
