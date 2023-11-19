@@ -123,8 +123,8 @@ frozen_enforced_dataclass = beartype(dataclass(frozen=True))
 
 
 from .dict_operations import *
-from .itertools import *
-from .logging import *
-from .math import *
+from .ezitertools import *
+from .ezlogging import *
+from .ezmath import *
 from .serialization import *
 from .structures import *

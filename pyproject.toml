@@ -11,7 +11,7 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.77"
+version = "0.4.80"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []
@@ -40,6 +40,7 @@ python = "^3.8"
 rich = "^13.3.3"
 tqdm = "^4.65.0"
 varname = ">=0.11.2,<0.13.0"
+art = "^6.1"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
@@ -58,6 +59,9 @@ pytest = "^7.2.2"
 pytest-cov = "^4.0.0"
 pytest-html = ">=3.2,<5.0"
 pyupgrade = "^3.3.1"
+ipykernel = "^6.26.0"
+ipdb = "^0.13.13"
+pyflyby = "^1.8.7"
 
 [tool.poetry.extras]
 torch = ["ezjaxtyping", "pynvml"]

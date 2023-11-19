@@ -15,7 +15,7 @@ from torch.distributions import Normal as TorchNormal
 from torch.distributions import kl_divergence
 from torch.distributions.utils import _sum_rightmost
 
-from eztils.default.math import create_stats_ordered_dict
+from eztils.default.ezmath import create_stats_ordered_dict
 from eztils.torch.math import atanh
 from eztils.torch.tensor_creators import ones, tensor, zeros
 from eztils.torch.to import to_np
