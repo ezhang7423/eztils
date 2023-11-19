@@ -8,7 +8,6 @@ from pathlib import Path
 
 import pandas as pd
 from art import tprint
-from ezlogging import datestr
 from rich import print
 
 
@@ -36,8 +35,9 @@ def run_parallel(
     use_cuda_visible_devices: bool = False,
     base_cmd: str = "python3 scripts/eval.py",
     typer_style: bool = True,
-    data_path: str = "./",
+    data_path: str = "./runs",
     sleep_time: int = 5,
+    debug: bool = False,
 ):
     """
     # example
@@ -56,6 +56,7 @@ def run_parallel(
     :param base_cmd: _description_, defaults to 'python3 scripts/eval.py'
     :type base_cmd: str, optional
     """
+    from eztils import datestr
     hparams = hparam_cls.get_product()
     attrs = get_user_defined_attrs(hparam_cls)
     tprint("Run Parallel", font="bigchief")
@@ -97,6 +98,7 @@ def run_parallel(
         # Append hyperparameters to the command
         for arg, value in args.items():
             if typer_style:
+                arg = arg.replace('_', '-')
                 if isinstance(value, bool):
                     cmd += f" --{'no-' if value else ''}{arg}"
                 else:
@@ -110,8 +112,10 @@ def run_parallel(
         cmd += f" > {data_path / fout} 2>&1 &"
 
         print(f"Running {i}: {cmd}")
-        time.sleep(sleep_time)
-        os.system(cmd)
+        
+        if not debug:
+            time.sleep(sleep_time)
+            os.system(cmd)
 
 
 if __name__ == "__main__":

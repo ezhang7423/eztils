@@ -128,3 +128,4 @@ from .ezlogging import *
 from .ezmath import *
 from .serialization import *
 from .structures import *
+from .run_parallel import *
