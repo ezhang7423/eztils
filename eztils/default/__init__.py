@@ -126,6 +126,6 @@ from .dict_operations import *
 from .ezitertools import *
 from .ezlogging import *
 from .ezmath import *
+from .run_parallel import *
 from .serialization import *
 from .structures import *
-from .run_parallel import *

@@ -1,6 +1,8 @@
 # %%
 
 import os
+from subprocess import Popen
+import subprocess
 import time
 from datetime import datetime
 from itertools import product
@@ -9,7 +11,9 @@ from pathlib import Path
 import pandas as pd
 from art import tprint
 from rich import print
-
+from rich.table import Table
+import signal
+import sys
 
 def get_user_defined_attrs(cls) -> list:
     return [
@@ -28,6 +32,16 @@ class BaseHyperParameters:
 
 
 # %%
+def kill_processes(processes):
+    for process in processes:
+        try:
+            # Sends SIGTERM to the entire process group
+            os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+            # Optionally, you can wait for the processes to ensure they have stopped
+            process.wait(timeout=5)
+        except Exception as e:
+            print(f"Failed to terminate process group {process.pid}: {e}")
+
 
 
 def run_parallel(
@@ -38,32 +52,39 @@ def run_parallel(
     data_path: str = "./runs",
     sleep_time: int = 5,
     debug: bool = False,
-):
+) -> list:
     """
-    # example
-    class HyperParameters(BaseHyperParameters):
-        frame_offset = [-1]
-        gen_steps = [-1]
-        seeds = [12, 13, 42]
-        epochs = [300000, 400000, 490000]
+    Run parallel processes with different hyperparameters.
 
-
-
-    :param hparam_cls: _description_
-    :type hparam_cls: BaseHyperParameters
-    :param use_cuda_visible_devices: _description_, defaults to False
-    :type use_cuda_visible_devices: bool, optional
-    :param base_cmd: _description_, defaults to 'python3 scripts/eval.py'
-    :type base_cmd: str, optional
+    :return: List of spawned processes
     """
     from eztils import datestr
+
+    
+
+    """
+    Handle signals
+    """
+    processes = []  # Store the process IDs
+    # Define your signal handler function
+    def signal_handler(signum, frame):
+        print(f"Received signal: {signal.Signals(signum).name}")
+        kill_processes(processes)
+        sys.exit(1)  # or any appropriate exit code
+                
+    # Register the handlers within the function
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGQUIT, signal_handler)
+    """
+    End handle signals
+    """
+    
     hparams = hparam_cls.get_product()
     attrs = get_user_defined_attrs(hparam_cls)
     tprint("Run Parallel", font="bigchief")
     print("Starting at", datestr(), "\n\n")
 
-    # print a nice table
-    from rich.table import Table
+
 
     table = Table(title="Hyperparameters")
 
@@ -81,41 +102,50 @@ def run_parallel(
     # Assuming d_count and base_cmd are defined elsewhere
     if use_cuda_visible_devices:
         import torch
-
         d_count = torch.cuda.device_count()
-
-        base_cmd = f"CUDA_VISIBLE_DEVICES=(i) {base_cmd}"  # Placeholder
 
     for i, values in enumerate(hparams):
         args = {attr: value for attr, value in zip(attrs, values)}
 
-        # Include additional command-specific options
-        if use_cuda_visible_devices:
-            cmd = base_cmd.replace("(i)", str(i % d_count))
-        else:
-            cmd = base_cmd
+        device_id = str(i % d_count) if use_cuda_visible_devices else ""
+        cuda_cmd = f"CUDA_VISIBLE_DEVICES={device_id}" if device_id else ""
 
         # Append hyperparameters to the command
+        full_cmd_args = []
         for arg, value in args.items():
             if typer_style:
-                arg = arg.replace('_', '-')
+                hyphen_arg = arg.replace("_", "-")
                 if isinstance(value, bool):
-                    cmd += f" --{'no-' if value else ''}{arg}"
+                    arg_str = f"--{'no-' if not value else ''}{hyphen_arg}"
                 else:
-                    cmd += f" --{arg} {value}"
+                    arg_str = f"--{hyphen_arg} {value}"
             else:
-                cmd += f" --{arg}={value}"
+                arg_str = f"--{arg}={value}"
 
+            full_cmd_args.append(arg_str)
+
+        full_cmd = f"{cuda_cmd} {base_cmd} {' '.join(full_cmd_args)}"
         fout = f'{datetime.now().strftime("%b_%d")}_{i}.out'
-        data_path = Path(data_path)
+        data_path = Path(data_path).resolve()
         data_path.mkdir(exist_ok=True, parents=True)
-        cmd += f" > {data_path / fout} 2>&1 &"
+        output_file = data_path / fout
+        print(f"Running {i}: {full_cmd} > {output_file}")
 
-        print(f"Running {i}: {cmd}")
-        
         if not debug:
             time.sleep(sleep_time)
-            os.system(cmd)
+            with open(output_file, "w") as fout:
+                process = Popen(
+                    full_cmd,
+                    stdout=fout,
+                    stderr=subprocess.STDOUT,
+                    preexec_fn=os.setsid,
+                    shell=True,
+                )
+            processes.append(process) # this isn't working properly...TODO Fix
+            print('pids', ' '.join([str(p.pid) for p in processes]))
+
+
+    return processes
 
 
 if __name__ == "__main__":
