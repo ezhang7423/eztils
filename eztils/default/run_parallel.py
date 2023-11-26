@@ -1,19 +1,19 @@
 # %%
 
 import os
-from subprocess import Popen
+import signal
 import subprocess
+import sys
 import time
 from datetime import datetime
 from itertools import product
 from pathlib import Path
+from subprocess import Popen
 
-import pandas as pd
 from art import tprint
 from rich import print
 from rich.table import Table
-import signal
-import sys
+
 
 def get_user_defined_attrs(cls) -> list:
     return [
@@ -43,7 +43,6 @@ def kill_processes(processes):
             print(f"Failed to terminate process group {process.pid}: {e}")
 
 
-
 def run_parallel(
     hparam_cls: BaseHyperParameters,
     use_cuda_visible_devices: bool = False,
@@ -60,8 +59,6 @@ def run_parallel(
     """
     from eztils import datestr
 
-    
-
     """
     Handle signals
     """
@@ -71,20 +68,18 @@ def run_parallel(
         print(f"Received signal: {signal.Signals(signum).name}")
         kill_processes(processes)
         sys.exit(1)  # or any appropriate exit code
-                
+
     # Register the handlers within the function
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGQUIT, signal_handler)
     """
     End handle signals
     """
-    
+
     hparams = hparam_cls.get_product()
     attrs = get_user_defined_attrs(hparam_cls)
     tprint("Run Parallel", font="bigchief")
     print("Starting at", datestr(), "\n\n")
-
-
 
     table = Table(title="Hyperparameters")
 
@@ -102,6 +97,7 @@ def run_parallel(
     # Assuming d_count and base_cmd are defined elsewhere
     if use_cuda_visible_devices:
         import torch
+
         d_count = torch.cuda.device_count()
 
     for i, values in enumerate(hparams):
@@ -141,9 +137,8 @@ def run_parallel(
                     preexec_fn=os.setsid,
                     shell=True,
                 )
-            processes.append(process) # this isn't working properly...TODO Fix
-            print('pids', ' '.join([str(p.pid) for p in processes]))
-
+            processes.append(process)  # this isn't working properly...TODO Fix
+            print("pids", " ".join([str(p.pid) for p in processes]))
 
     return processes
 

@@ -1,6 +1,3 @@
-from typing import Any, Dict, MutableMapping
-
-
 class AttriDict(dict):  # type: ignore
     """
     A dictionary subclass that allows accessing keys as attributes.

@@ -1,13 +1,11 @@
 """eds utilities"""
 
+import dataclasses
 import functools
 import json
 import sys
 
 # import often used modules
-from pathlib import Path
-
-from tqdm.auto import tqdm
 
 """
 Get and set version of module

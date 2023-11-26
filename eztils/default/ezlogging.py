@@ -89,7 +89,7 @@ def inspect(obj, list_expand=3):
         :type root: Tree
         """
         if isinstance(obj, dict):
-            dict_node = root.add(f"dict")
+            dict_node = root.add("dict")
             for key in obj.keys():
                 add_children(obj[key], dict_node.add(f"[bold]{key}[/bold]"))
         elif isinstance(obj, list) or isinstance(obj, np.ndarray):

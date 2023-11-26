@@ -3,9 +3,7 @@ Add custom distributions in addition to th existing ones
 """
 from collections import OrderedDict
 
-import numpy as np
 import torch
-import torch.distributions as D
 import torch.nn.functional as F
 from torch.distributions import Bernoulli as TorchBernoulli
 from torch.distributions import Beta as TorchBeta

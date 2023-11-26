@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from inspect import getsourcefile, isfunction
 from pathlib import Path
 
+from beartype import beartype
+
 """
 miscellaneous functions that are often used
 """
@@ -40,7 +42,7 @@ def abspath():
     # return os.path.dirname(inspect.stack()[1][1]) # type: ignore
     # return os.path.dirname(getsourcefile(lambda:0)) # type: ignore
     """
-    return os.path.dirname(getsourcefile(inspect_.stack()[1][0]))  # type: ignore
+    return Path(os.path.dirname(getsourcefile(inspect_.stack()[1][0])))  # type: ignore
 
 
 from pathlib import Path
@@ -113,19 +115,17 @@ def query_yes_no(question, default="yes"):
 often used modules
 """
 # beartype
-from beartype import beartype
-from beartype.door import die_if_unbearable  # <-- like "assert isinstance(...)"
-from beartype.door import is_bearable  # <-------- like "isinstance(...)"
-from beartype.vale import Is
 
 enforced_dataclass = beartype(dataclass)
 frozen_enforced_dataclass = beartype(dataclass(frozen=True))
 
 
-from .dict_operations import *
-from .ezitertools import *
-from .ezlogging import *
-from .ezmath import *
-from .run_parallel import *
-from .serialization import *
-from .structures import *
+# this has become too slow...
+
+# from .dict_operations import *
+# from .ezitertools import *
+# from .ezlogging import *
+# from .ezmath import *
+# from .run_parallel import *
+# from .serialization import *
+# from .structures import *

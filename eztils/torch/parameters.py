@@ -41,7 +41,7 @@ def report_parameters(model, topk=10):
 
     modules = dict(model.named_modules())
     sorted_keys = sorted(counts, key=lambda x: -counts[x])
-    max_length = max([len(k) for k in sorted_keys])
+    # max_length = max([len(k) for k in sorted_keys])
     for i in range(topk):
         key = sorted_keys[i]
         count = counts[key]
