@@ -112,18 +112,3 @@ def inspect(obj, list_expand=3):
     add_children(obj, treewrapper)  # type: ignore
     console.print(treewrapper.tree)
 
-
-def datestr(full=True):
-    """
-    Returns a formatted date string.
-
-    :param full: If True, includes seconds in the time. If False, only includes hours and minutes. Defaults to True.
-    :type full: bool, optional
-    :return: A string representing the current date and time in the format 'YYYY-MM-DD---HH-MM-SS' or 'YYYY-MM-DD---HH-MM', depending on the value of `full`.
-    :rtype: str
-    """
-    now = datetime.now()
-    if full:
-        return f'{now.strftime("%Y-%m-%d")}---{now.strftime("%H-%M-%S")}'
-    else:
-        return f'{now.strftime("%Y-%m-%d")}---{now.strftime("%H-%M")}'
