@@ -1072,8 +1072,8 @@ files = [
 [package.dependencies]
 numpy = [
     {version = ">=1.20.3", markers = "python_version < \"3.10\""},
-    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
     {version = ">=1.21.0", markers = "python_version >= \"3.10\" and python_version < \"3.11\""},
+    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
 ]
 python-dateutil = ">=2.8.1"
 pytz = ">=2020.1"
@@ -1880,13 +1880,13 @@ files = [
 
 [[package]]
 name = "varname"
-version = "0.12.0"
+version = "0.12.1"
 description = "Dark magics about variable names in python."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "varname-0.12.0-py3-none-any.whl", hash = "sha256:fc0d056072918efc76375237cbbaa49402f22cc06ed61e893ac71c272d3b3f4d"},
-    {file = "varname-0.12.0.tar.gz", hash = "sha256:ca0c7c974a1a9382144eeee21ab429286c9de8259248ce40a9f48bcf08adb223"},
+    {file = "varname-0.12.1-py3-none-any.whl", hash = "sha256:c044057d45522dae312f49f06c34e6df0eaae478874defb685a5fdb4d3c246da"},
+    {file = "varname-0.12.1.tar.gz", hash = "sha256:3ec8620dba316c73a0eca9631c3d94c6be717222fe6e0c57b1c56fca7a0e9bed"},
 ]
 
 [package.dependencies]
