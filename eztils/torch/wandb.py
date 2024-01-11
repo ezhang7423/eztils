@@ -41,7 +41,7 @@ def log_wandb_distribution(key, samples, quantiles: list = None):
     assert all([q < 0.5 for q in quantiles])
     quantiles = quantiles + [0.5] + [1 - q for q in quantiles[::-1]]  # add median
 
-    dist_quantiles = torch.quantile(samples, torch.tensor(quantiles))
+    dist_quantiles = torch.quantile(samples, torch.tensor(quantiles).to(samples))
 
     d = {key + f"/{q}": dist_quantiles[i].item() for i, q in enumerate(quantiles)}
 

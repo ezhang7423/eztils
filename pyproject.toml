@@ -11,7 +11,7 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.80"
+version = "0.4.81"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []
@@ -41,6 +41,7 @@ rich = "^13.3.3"
 tqdm = "^4.65.0"
 varname = ">=0.11.2,<0.13.0"
 art = "^6.1"
+pandas = "1.5.3"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"

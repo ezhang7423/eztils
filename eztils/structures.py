@@ -1,14 +1,3 @@
-from typing import Any, Dict, MutableMapping
-
-
-class Nop(object):
-    def nop(*args, **kw):
-        pass
-
-    def __getattr__(self, _):
-        return self.nop
-
-
 class AttriDict(dict):  # type: ignore
     """
     A dictionary subclass that allows accessing keys as attributes.

@@ -53,7 +53,7 @@ def to_torch(x, dtype=None, device=None):
 
     dtype = dtype or DTYPE
     device = device or DEVICE
-    if type(x) is dict:
+    if isinstance(x, dict):
         return {k: to_torch(v, dtype, device) for k, v in x.items()}
     elif torch.is_tensor(x):
         return x.to(device).type(dtype)

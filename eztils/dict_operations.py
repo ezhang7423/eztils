@@ -167,5 +167,5 @@ def recursive_items(dictionary):
     """
     for key, value in dictionary.items():
         yield key, value
-        if type(value) is dict:
+        if isinstance(value, dict):
             yield from recursive_items(value)

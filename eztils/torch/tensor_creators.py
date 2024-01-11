@@ -101,10 +101,5 @@ def rand(*args, **kwargs):
 
 
 @device_dtype_decorator
-def tensor(*args, **kwargs):
-    return torch.tensor(*args, **kwargs)
-
-
-@device_dtype_decorator
 def normal(*args, **kwargs):
     return torch.normal(*args, **kwargs)
