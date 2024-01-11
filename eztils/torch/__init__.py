@@ -119,6 +119,11 @@ def get_best_cuda() -> int:
     return best_device_index.item()
 
 
+def freeze(model: torch.nn.Module):
+    for p in model.parameters():
+        p.requires_grad = True
+
+
 def identity(x):
     return x
 
