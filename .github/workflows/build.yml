@@ -41,5 +41,5 @@ jobs:
         if: matrix.python-version == '3.10'        
         continue-on-error: true
         run: |
-          poetry config pypi-token.pypi <my-token> ${{ secrets.PYPI_TOKEN }}
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry publish --build -u ezipe
