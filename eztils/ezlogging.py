@@ -111,4 +111,3 @@ def inspect(obj, list_expand=3):
     treewrapper = TreeWrapper()
     add_children(obj, treewrapper)  # type: ignore
     console.print(treewrapper.tree)
-

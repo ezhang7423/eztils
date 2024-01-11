@@ -1,18 +1,18 @@
 """eds utilities"""
 
 import dataclasses
-from datetime import datetime
 import functools
-import json
-import sys
 import inspect as inspect_
+import json
 import os
 import sys
 from dataclasses import dataclass
+from datetime import datetime
 from inspect import getsourcefile, isfunction
 from pathlib import Path
 
 from beartype import beartype
+
 # import often used modules
 
 """

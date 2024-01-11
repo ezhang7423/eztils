@@ -63,6 +63,7 @@ def run_parallel(
     Handle signals
     """
     processes = []  # Store the process IDs
+
     # Define your signal handler function
     def signal_handler(signum, frame):
         print(f"Received signal: {signal.Signals(signum).name}")
