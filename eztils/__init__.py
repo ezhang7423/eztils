@@ -173,6 +173,12 @@ def datestr(full=True):
         return f'{now.strftime("%Y-%m-%d")}---{now.strftime("%H-%M")}'
 
 
+def wlog(*args, **kwargs):
+    import wandb
+    if wandb.run is not None:
+        wandb.log(*args, **kwargs)
+
+
 """
 often used modules
 """
