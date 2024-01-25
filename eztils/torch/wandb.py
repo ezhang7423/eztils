@@ -3,6 +3,11 @@ import wandb
 from rich import print
 
 
+def wlog(*args, **kwargs):
+    if wandb.run is not None:
+        wandb.log(*args, **kwargs)
+
+
 def log_wandb_distribution(key, samples, quantiles: list = None):
     """
     https://github.com/ezhang7423/wandb-histogram-over-time/tree/main
