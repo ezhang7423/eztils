@@ -175,6 +175,7 @@ def datestr(full=True):
 
 def wlog(*args, **kwargs):
     import wandb
+
     if wandb.run is not None:
         wandb.log(*args, **kwargs)
 
