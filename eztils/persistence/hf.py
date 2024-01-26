@@ -4,7 +4,8 @@ Requires setting HF_TOKEN env variable
 
 import os
 from pathlib import Path
-from huggingface_hub import create_repo, upload_folder, login
+
+from huggingface_hub import create_repo, login, upload_folder
 
 
 def upload_folder(local_folder: str, remote: str, username="ezipe"):
