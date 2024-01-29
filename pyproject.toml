@@ -48,7 +48,7 @@ varname = ">=0.11.2,<0.13.0"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
-black = "^23.3.0"
+black = ">=23.3,<25.0"
 coverage = "^7.2.2"
 coverage-badge = "^1.1.0"
 darglint = "^1.8.1"
