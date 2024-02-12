@@ -5,7 +5,8 @@ Requires setting HF_TOKEN env variable
 import os
 from pathlib import Path
 
-from huggingface_hub import create_repo, login, upload_folder
+from huggingface_hub import create_repo, login
+from huggingface_hub import upload_folder as hf_upload_folder
 
 
 def upload_folder(local_folder: str, remote: str, username="ezipe"):
@@ -24,4 +25,4 @@ def upload_folder(local_folder: str, remote: str, username="ezipe"):
         pass
 
     print(f"Uploading folder {lf} to huggingface {remote}...")
-    upload_folder(folder_path=lf, repo_id=f"{username}/{remote}")
+    hf_upload_folder(folder_path=lf, repo_id=f"{username}/{remote}")

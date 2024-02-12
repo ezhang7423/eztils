@@ -5,7 +5,7 @@ from multiprocessing import shared_memory
 from pathlib import Path
 
 import loguru
-from varname import ImproperUseError, argname
+from varname import ImproperUseError, VarnameRetrievingError, argname
 
 
 def remove_shm_from_resource_tracker():
@@ -64,10 +64,11 @@ def save(var, folder=None, memory=False, save_fn=pickle.dump):
     :type save_fn: callable, optional
     """
     folder = Path(folder or ".").absolute().resolve()
-    try:
-        varname = make_valid_python_var(argname("var"))
-    except ImproperUseError:
-        varname = "tensor"
+    if varname is None:
+        try:
+            varname = make_valid_python_var(argname("var"))
+        except ImproperUseError or VarnameRetrievingError:
+            varname = "default"
 
     if not memory:
         fname = str(folder / f"{varname}.pt")
