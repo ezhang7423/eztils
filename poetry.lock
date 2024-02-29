@@ -2387,13 +2387,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "varname"
-version = "0.12.2"
+version = "0.13.0"
 description = "Dark magics about variable names in python."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "varname-0.12.2-py3-none-any.whl", hash = "sha256:7edf7d8e22fbde6f0f813d5e3a8f6c723122921d16dedf1568fcacb84b91386d"},
-    {file = "varname-0.12.2.tar.gz", hash = "sha256:f29c0ffdeab5a439d96222d3a52a0b281083f22528142dc36a69ad112a530c9f"},
+    {file = "varname-0.13.0-py3-none-any.whl", hash = "sha256:d41101d69d92d167e15f2997039c0a52a73ff0c8e02256c3c8b549a11fc4b176"},
+    {file = "varname-0.13.0.tar.gz", hash = "sha256:64e9052029fd4d49686ac6443a9ed182c2c149686e42acef69ebaa3a27811beb"},
 ]
 
 [package.dependencies]
@@ -2469,4 +2469,4 @@ torch = ["ezjaxtyping", "pynvml"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "4651bb4f74ca17e399d9c5918a9b3650502f253edf3f60c379d93f3411b700d4"
+content-hash = "a6ca5f7f65f66ad7f7d29ccb66096d4b1139d2f2f6352eab990a8391e558dbce"
