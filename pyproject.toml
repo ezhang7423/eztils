@@ -35,7 +35,7 @@ art = "^6.1"
 beartype = ">=0.14.1,<0.18.0" 
 einops = ">=0.6.1,<0.8.0" 
 ezjaxtyping = {version = "^0.2.20", optional = true} 
-huggingface-hub = {version = ">=0.20.3,<0.22.0", optional = true} 
+huggingface-hub = {version = ">=0.20.3,<0.23.0", optional = true} 
 loguru = "^0.7.0" 
 numpy = "^1.24.3" 
 pandas = "2.0.3" 
