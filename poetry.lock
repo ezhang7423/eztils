@@ -2465,9 +2465,9 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 
 [extras]
 persistence = ["huggingface-hub"]
-torch = ["ezjaxtyping", "pynvml"]
+torch = ["ezjaxtyping", "pynvml", "torch"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "a6ca5f7f65f66ad7f7d29ccb66096d4b1139d2f2f6352eab990a8391e558dbce"
+content-hash = "7ead0a22edc9cd4ce8d4fc91608f4708e6d634c7440a6f4eb7fec011182c842a"
