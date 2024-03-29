@@ -1,4 +1,5 @@
 """Tests imports."""
+
 import pytest
 
 import eztils
