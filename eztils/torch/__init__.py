@@ -8,7 +8,7 @@ from functools import partial
 import numpy as np
 import torch
 
-from eztils import load, save
+from eztils.serialization import load, save
 
 """
 globals

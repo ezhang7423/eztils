@@ -5,7 +5,7 @@ import functools
 import numpy as np
 import torch
 
-from eztils import normalize
+from eztils.ezmath import normalize
 
 
 def to_np(x):
