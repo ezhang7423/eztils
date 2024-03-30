@@ -14,17 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import dataclasses
-from dataclasses import dataclass, field, fields, make_dataclass
-import io
-import json
-import sys
 import types
-from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser, ArgumentTypeError
-from copy import copy, deepcopy
-from enum import Enum
-from inspect import isclass
-from pathlib import Path
 from typing import (
     Any,
     Callable,
@@ -39,11 +29,19 @@ from typing import (
     get_type_hints,
 )
 
-
+import dataclasses
+import io
+import json
+import sys
+from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser, ArgumentTypeError
+from copy import copy, deepcopy
+from dataclasses import dataclass, field, fields, make_dataclass
+from enum import Enum
+from inspect import isclass
+from pathlib import Path
 
 DataClass = NewType("DataClass", Any)
 DataClassType = NewType("DataClassType", Any)
-
 
 
 # From https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
@@ -74,16 +72,17 @@ def make_choice_type_function(choices: list) -> Callable[[str], Any]:
     str_to_choice = {str(choice): choice for choice in choices}
     return lambda arg: str_to_choice.get(arg, arg)
 
+
 def update_dataclass_defaults(cls, instance):
     new_fields = []
-    
+
     for f in fields(cls):
         if hasattr(instance, f.name):  # Update only if default is set
             f.default = getattr(instance, f.name)
-                        
+
         new_fields.append((f.name, f.type, f))
     return make_dataclass(cls.__name__, new_fields)
-        
+
 
 class HfArgumentParser(ArgumentParser):
     """
@@ -439,11 +438,10 @@ class HfArgumentParser(ArgumentParser):
 
         Returns:
             None. The output is written to a file specified by `file_path`.
-        """        
+        """
         return self._to(json.dump, args, file_path)
 
 
-    
 def HfArg(
     *,
     aliases: Union[str, List[str]] = None,
@@ -492,8 +490,9 @@ def HfArg(
         metadata=metadata, default=default, default_factory=default_factory, **kwargs
     )
 
-if __name__ == '__main__':
-    
+
+if __name__ == "__main__":
+
     def list_field(default=None, metadata=None):
         return field(default_factory=lambda: default, metadata=metadata)
 
@@ -508,17 +507,16 @@ if __name__ == '__main__':
     class WithDefaultExample:
         foo: int = 42
         baz: str = field(default="toto", metadata={"help": "help message"})
-    
+
     parser = HfArgumentParser((ListExample, WithDefaultExample))
-    parser.add_argument('-c', '--config', type=str)
-    
-    k,z, d = parser.parse_args_into_dataclasses()        
-    
+    parser.add_argument("-c", "--config", type=str)
+
+    k, z, d = parser.parse_args_into_dataclasses()
+
     if d.config is not None:
         a = parser.parse_json_file(d.config)
         print(a)
     else:
         print(k, z)
-    
-    parser.to_json((k, z), 'lol.json')
-            
+
+    parser.to_json((k, z), "lol.json")
