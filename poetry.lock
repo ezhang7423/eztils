@@ -1413,8 +1413,8 @@ files = [
 [package.dependencies]
 numpy = [
     {version = ">=1.20.3", markers = "python_version < \"3.10\""},
-    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
     {version = ">=1.21.0", markers = "python_version >= \"3.10\" and python_version < \"3.11\""},
+    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -1650,12 +1650,12 @@ toml = ["tomli (>=1.2.3)"]
 
 [[package]]
 name = "pyflyby"
-version = "1.9.2"
+version = "1.9.3"
 description = "pyflyby - Python development productivity tools, in particular automatic import management"
 optional = false
 python-versions = "<4,>3.6"
 files = [
-    {file = "pyflyby-1.9.2.tar.gz", hash = "sha256:5b3bcf934fee9d67e784c9629f97e2a30abe130eafea406378d838dd3adf4915"},
+    {file = "pyflyby-1.9.3.tar.gz", hash = "sha256:99f14654b460ca88829d0103de1bfb57e06b3c0fd89f8d87cfc02ba9e604feb6"},
 ]
 
 [package.dependencies]
