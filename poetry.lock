@@ -94,13 +94,13 @@ yaml = ["PyYAML"]
 
 [[package]]
 name = "beartype"
-version = "0.17.2"
+version = "0.18.3"
 description = "Unbearably fast runtime type checking in pure Python."
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "beartype-0.17.2-py3-none-any.whl", hash = "sha256:c22b21e1f785cfcf5c4d3d13070f532b6243a3ad67e68d2298ff08d539847dce"},
-    {file = "beartype-0.17.2.tar.gz", hash = "sha256:e911e1ae7de4bccd15745f7643609d8732f64de5c2fb844e89cbbed1c5a8d495"},
+    {file = "beartype-0.18.3-py3-none-any.whl", hash = "sha256:0131717230b04a7f1994422edaf237735febc90c0c98bd0094ce69e0a6706fff"},
+    {file = "beartype-0.18.3.tar.gz", hash = "sha256:04853d78493f3c84b03956f1fa0c1e5b84c5332a760559ddc8f2cf6141ddf791"},
 ]
 
 [package.extras]
@@ -1413,8 +1413,8 @@ files = [
 [package.dependencies]
 numpy = [
     {version = ">=1.20.3", markers = "python_version < \"3.10\""},
-    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
     {version = ">=1.21.0", markers = "python_version >= \"3.10\" and python_version < \"3.11\""},
+    {version = ">=1.23.2", markers = "python_version >= \"3.11\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -2471,4 +2471,4 @@ torch = ["ezjaxtyping", "pynvml", "torch"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "7ead0a22edc9cd4ce8d4fc91608f4708e6d634c7440a6f4eb7fec011182c842a"
+content-hash = "95429ff857345b535e8dcb492846d3dc5bb06117d4fd98a25d9181840b69eb68"
