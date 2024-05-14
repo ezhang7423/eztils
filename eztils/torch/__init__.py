@@ -123,6 +123,7 @@ from .distributions import *
 from .lightning import *
 from .math import *
 from .modules import *
+from .observable import *
 from .parameters import *
 from .tensor_creators import *
 from .to import *

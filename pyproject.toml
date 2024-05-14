@@ -11,7 +11,7 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.94"
+version = "0.4.95"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []
@@ -45,6 +45,7 @@ rich = "^13.3.3"
 torch = {version = "^2.2.2", optional = true} 
 tqdm = "^4.65.0" 
 varname = ">=0.11.2,<0.14.0" 
+nvitop = {version = "^1.3.2", optional = true}
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
@@ -69,7 +70,7 @@ pyupgrade = "^3.3.1"
 
 [tool.poetry.extras]
 persistence = ["huggingface-hub"]
-torch = ["ezjaxtyping", "pynvml", "torch"]
+torch = ["ezjaxtyping", "pynvml", "torch", "nvitop"]
 
 [tool.black]
 # https://github.com/psf/black

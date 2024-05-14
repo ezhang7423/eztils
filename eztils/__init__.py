@@ -176,6 +176,9 @@ def datestr(full=True):
 def wlog(*args, **kwargs):
     import wandb
 
+    if not kwargs.get("commit"):
+        kwargs["commit"] = True  # commit changes by default
+
     if wandb.run is not None:
         wandb.log(*args, **kwargs)
 
