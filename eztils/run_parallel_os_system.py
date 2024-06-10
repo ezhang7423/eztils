@@ -12,7 +12,7 @@ import time
 import numpy as np
 
 from eztils import abspath
-from eztils.run_parallel import BaseHyperParameters
+from eztils.run_parallel import BaseHyperParameters, calculate_split
 
 
 class HyperParameters(BaseHyperParameters):
@@ -41,40 +41,6 @@ class HyperParameters(BaseHyperParameters):
         [0.3, 0.6, 0.8],
     ]  # 10 diff
     _8_entropy_coef = [0.001]
-
-
-def calculate_split(total_splits, total_len, index):
-    assert (
-        0 <= index < total_splits
-    ), f"Index {index} out of bounds for {total_splits} splits."
-    assert total_splits > 0, "Total splits must be greater than 0."
-    assert total_len > 0, "Total length must be greater than 0."
-
-    if total_len < total_splits:  # if there are more splits than work
-        if index < total_len:
-            return index, index + 1
-        return 0, 0  # give no work
-
-    # divide as fairly as possible
-    if (total_len / total_splits) % 1 > 0.5:
-        # Calculate the length of each split by ceiling
-        split_length = -(total_len // -total_splits)
-    else:
-        # Calculate the length of each split by floor
-        split_length = total_len // total_splits
-
-    # Calculate the start and end indices of the split
-    start_index = index * split_length
-    end_index = start_index + split_length
-
-    if start_index >= total_len:
-        return 0, 0
-
-    # Adjust the end index if the split is not evenly divided
-    if index == total_splits - 1 or end_index > total_len:
-        end_index = total_len
-
-    return start_index, end_index
 
 
 if __name__ == "__main__":

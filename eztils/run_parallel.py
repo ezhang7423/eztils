@@ -22,13 +22,13 @@ def get_user_defined_attrs(cls) -> list:
         if not callable(getattr(cls, attr)) and not attr.startswith("__")
     ]
 
+def prod(*args, **kwargs):
+    return list(product(*args, **kwargs))
 
 class BaseHyperParameters:
     @classmethod
     def get_product(cls):
-        return list(
-            product(*[getattr(cls, attr) for attr in get_user_defined_attrs(cls)])
-        )
+        return prod(*[getattr(cls, attr) for attr in get_user_defined_attrs(cls)])
 
 
 # %%
@@ -42,6 +42,39 @@ def kill_processes(processes):
         except Exception as e:
             print(f"Failed to terminate process group {process.pid}: {e}")
 
+
+def calculate_split(total_splits, total_len, index):
+    assert (
+        0 <= index < total_splits
+    ), f"Index {index} out of bounds for {total_splits} splits."
+    assert total_splits > 0, "Total splits must be greater than 0."
+    assert total_len > 0, "Total length must be greater than 0."
+
+    if total_len < total_splits:  # if there are more splits than work
+        if index < total_len:
+            return index, index + 1
+        return 0, 0  # give no work
+
+    # divide as fairly as possible
+    if (total_len / total_splits) % 1 > 0.5:
+        # Calculate the length of each split by ceiling
+        split_length = -(total_len // -total_splits)
+    else:
+        # Calculate the length of each split by floor
+        split_length = total_len // total_splits
+
+    # Calculate the start and end indices of the split
+    start_index = index * split_length
+    end_index = start_index + split_length
+
+    if start_index >= total_len:
+        return 0, 0
+
+    # Adjust the end index if the split is not evenly divided
+    if index == total_splits - 1 or end_index > total_len:
+        end_index = total_len
+
+    return start_index, end_index
 
 def run_parallel(
     hparam_cls: BaseHyperParameters,
