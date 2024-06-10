@@ -22,8 +22,10 @@ def get_user_defined_attrs(cls) -> list:
         if not callable(getattr(cls, attr)) and not attr.startswith("__")
     ]
 
+
 def prod(*args, **kwargs):
     return list(product(*args, **kwargs))
+
 
 class BaseHyperParameters:
     @classmethod
@@ -75,6 +77,7 @@ def calculate_split(total_splits, total_len, index):
         end_index = total_len
 
     return start_index, end_index
+
 
 def run_parallel(
     hparam_cls: BaseHyperParameters,

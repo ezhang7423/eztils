@@ -44,7 +44,6 @@ class HyperParameters(BaseHyperParameters):
 
 
 if __name__ == "__main__":
-
     hparamclass = HyperParameters()
     hparams = HyperParameters.get_product()
 
