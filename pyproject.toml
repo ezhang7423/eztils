@@ -11,7 +11,7 @@ license = "MIT"
 name = "eztils"
 readme = "README.md"
 repository = "https://github.com/ezhang7423/eztils"
-version = "0.4.96"
+version = "0.4.97"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []
@@ -39,7 +39,7 @@ huggingface-hub = {version = ">=0.20.3,<0.24.0", optional = true}
 loguru = "^0.7.0" 
 numpy = "^1.24.3" 
 pandas = "2.0.3" 
-pynvml = {version = "^11.5.0", optional = true} 
+# pynvml = {version = "^11.5.0", optional = true} 
 python = "^3.8" # this allows all version of python 3 after 3.8
 rich = "^13.3.3" 
 torch = {version = "^2.2.2", optional = true} 
@@ -70,7 +70,8 @@ pyupgrade = "^3.3.1"
 
 [tool.poetry.extras]
 persistence = ["huggingface-hub"]
-torch = ["ezjaxtyping", "pynvml", "torch", "nvitop"]
+# torch = ["ezjaxtyping", "pynvml", "torch", "nvitop"]
+torch = ["ezjaxtyping", "torch", "nvitop"]
 
 [tool.black]
 # https://github.com/psf/black

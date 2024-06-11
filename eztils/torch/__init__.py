@@ -93,21 +93,21 @@ torch.load = partial(torch.load, map_location="cpu")
 load = partial(load, load_fn=torch.load)
 
 
-def get_best_cuda() -> int:
-    import numpy as np
-    import pynvml
+# def get_best_cuda() -> int:
+#     import numpy as np
+#     import pynvml
 
-    pynvml.nvmlInit()
-    deviceCount = pynvml.nvmlDeviceGetCount()
-    deviceMemory = []
-    for i in range(deviceCount):
-        handle = pynvml.nvmlDeviceGetHandleByIndex(i)
-        mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-        deviceMemory.append(mem_info.free)
-    deviceMemory = np.array(deviceMemory, dtype=np.int64)
-    best_device_index = np.argmax(deviceMemory)
-    print("best gpu:", best_device_index)
-    return best_device_index.item()
+#     pynvml.nvmlInit()
+#     deviceCount = pynvml.nvmlDeviceGetCount()
+#     deviceMemory = []
+#     for i in range(deviceCount):
+#         handle = pynvml.nvmlDeviceGetHandleByIndex(i)
+#         mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
+#         deviceMemory.append(mem_info.free)
+#     deviceMemory = np.array(deviceMemory, dtype=np.int64)
+#     best_device_index = np.argmax(deviceMemory)
+#     print("best gpu:", best_device_index)
+#     return best_device_index.item()
 
 
 def freeze(model: torch.nn.Module):
