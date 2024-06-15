@@ -78,7 +78,14 @@ def update_dataclass_defaults(cls, instance):
 
     for f in fields(cls):
         if hasattr(instance, f.name):  # Update only if default is set
-            f.default = getattr(instance, f.name)
+            instance_field = getattr(instance, f.name)
+
+            # if the instance_field is already a Field, just set it directly
+            if isinstance(instance_field, dataclasses.Field):
+                f = instance_field
+            else:
+                # otherwise, set the default value to the primitive type
+                f.default = instance_field
 
         new_fields.append((f.name, f.type, f))
     return make_dataclass(cls.__name__, new_fields)
