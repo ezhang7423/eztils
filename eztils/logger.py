@@ -7,9 +7,9 @@ The logger can log locally, to a file, or to Weights & Biases (wandb), depending
 
 """
 
-import dataclasses
 from typing import Any, Dict, Optional
 
+import dataclasses
 import os
 import sys
 from collections import ChainMap
@@ -22,9 +22,8 @@ from rich.console import Console
 from rich.table import Table
 
 
-
 @dataclasses.dataclass
-class Config:    
+class Config:
     wandb: bool = (
         False  # if toggled, this experiment will be tracked with Weights and Biases
     )
@@ -32,7 +31,6 @@ class Config:
     wandb_entity: str = None  # the entity (team) of wandb's project
     log_locally: bool = True  # if toggled, log messages will be printed to stderr
     log_file: str = None  # the file to log to. relative to the Globals.LOG_DIR
-    
 
 
 def requires_cfg(func):
@@ -83,9 +81,7 @@ class Logger(LoguruLogger):
         if self.log_wandb:
             import wandb
 
-            self.wandb_module = (
-                wandb  # a hack to lazy load modules. this is unfortunate but necessary for faster imports
-            )
+            self.wandb_module = wandb  # a hack to lazy load modules. this is unfortunate but necessary for faster imports
             if self.wandb_project is None:
                 raise ValueError(
                     "wandb_project must be provided when log_wandb is True"
