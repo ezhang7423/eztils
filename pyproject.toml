@@ -45,7 +45,7 @@ torch = {version = "^2.2.2", optional = true}
 tqdm = "^4.65.0"
 varname = ">=0.11.2,<0.14.0"
 nvitop = {version = "^1.3.2", optional = true}
-numpy = "1.24.3"
+numpy = "1.24.4"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.5"
