@@ -1406,6 +1406,7 @@ description = "Nvidia JIT LTO Library"
 optional = true
 python-versions = ">=3"
 files = [
+    {file = "nvidia_nvjitlink_cu12-12.5.82-py3-none-manylinux2014_aarch64.whl", hash = "sha256:98103729cc5226e13ca319a10bbf9433bbbd44ef64fe72f45f067cacc14b8d27"},
     {file = "nvidia_nvjitlink_cu12-12.5.82-py3-none-manylinux2014_x86_64.whl", hash = "sha256:f9b37bc5c8cf7509665cb6ada5aaa0ce65618f2332b7d3e78e9790511f111212"},
     {file = "nvidia_nvjitlink_cu12-12.5.82-py3-none-win_amd64.whl", hash = "sha256:e782564d705ff0bf61ac3e1bf730166da66dd2fe9012f111ede5fc49b64ae697"},
 ]
@@ -2276,13 +2277,13 @@ files = [
 
 [[package]]
 name = "tomlkit"
-version = "0.13.0"
+version = "0.13.2"
 description = "Style preserving TOML library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tomlkit-0.13.0-py3-none-any.whl", hash = "sha256:7075d3042d03b80f603482d69bf0c8f345c2b30e41699fd8883227f89972b264"},
-    {file = "tomlkit-0.13.0.tar.gz", hash = "sha256:08ad192699734149f5b97b45f1f18dad7eb1b6d16bc72ad0c2335772650d7b72"},
+    {file = "tomlkit-0.13.2-py3-none-any.whl", hash = "sha256:7a974427f6e119197f670fbbbeae7bef749a6c14e793db934baefc1b5f03efde"},
+    {file = "tomlkit-0.13.2.tar.gz", hash = "sha256:fff5fe59a87295b278abd31bec92c15d9bc4a06885ab12bcea52c71119392e79"},
 ]
 
 [[package]]
