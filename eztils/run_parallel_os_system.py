@@ -50,11 +50,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Run the experiment with dynamic configuration."
     )
-    parser.add_argument("--job", type=int, required=True, help="Which job am I?")
+    parser.add_argument("--job", type=int, default=0, help="Which job am I?")
     parser.add_argument(
         "--total",
         type=int,
-        required=True,
+        default=1,
         help="How many total jobs are there running?",
     )
 
