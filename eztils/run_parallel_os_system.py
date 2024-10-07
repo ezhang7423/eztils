@@ -1,9 +1,13 @@
-#  Copyright (c) Meta Platforms, Inc. and affiliates.
-#
-#  This source code is licensed under the license found in the
-#  LICENSE file in the root directory of this source tree.
-#
-# % pip install eztils
+# Copy this file to your directory, then create a new file titled 'run_all.py' and use this to run this file in parallel:
+# # TODO: do this across batch rcall for multi-node distribution
+# import os
+# num_cpus = os.cpu_count()
+
+# for i in range(num_cpus):
+#     cmd = f'python run_parallel_os_system.py --job {i} --total {num_cpus} > {i}.log 2>&1 &'
+#     os.system(cmd)
+
+
 import argparse
 import os
 import sys
