@@ -75,7 +75,6 @@ def make_choice_type_function(choices: list) -> Callable[[str], Any]:
 
 def update_dataclass_defaults(cls, instance):
     new_fields = []
-
     for f in fields(cls):
         if hasattr(instance, f.name):  # Update only if default is set
             instance_field = getattr(instance, f.name)
@@ -83,6 +82,9 @@ def update_dataclass_defaults(cls, instance):
             # if the instance_field is already a Field, just set it directly
             if isinstance(instance_field, dataclasses.Field):
                 f = instance_field
+            elif isinstance(instance_field, (list, tuple, dict)):
+                # if the instance_field is a List or a Tuple or a Dict, we need to update the default_factory instead of the default
+                f.default_factory = lambda: deepcopy(instance_field)
             else:
                 # otherwise, set the default value to the primitive type
                 f.default = instance_field
