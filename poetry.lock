@@ -160,7 +160,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 name = "cachetools"
 version = "5.5.0"
 description = "Extensible memoizing collections and decorators"
-optional = false
+optional = true
 python-versions = ">=3.7"
 files = [
     {file = "cachetools-5.5.0-py3-none-any.whl", hash = "sha256:02134e8439cdc2ffb62023ce1debca2944c3f289d66bb17ead3ab3dede74b292"},
@@ -171,7 +171,7 @@ files = [
 name = "certifi"
 version = "2024.8.30"
 description = "Python package for providing Mozilla's CA Bundle."
-optional = false
+optional = true
 python-versions = ">=3.6"
 files = [
     {file = "certifi-2024.8.30-py3-none-any.whl", hash = "sha256:922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8"},
@@ -664,7 +664,7 @@ typing = ["typing-extensions (>=4.12.2)"]
 name = "fsspec"
 version = "2024.9.0"
 description = "File-system specification"
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "fsspec-2024.9.0-py3-none-any.whl", hash = "sha256:a0947d552d8a6efa72cc2c730b12c41d043509156966cca4fb157b0f2a0c574b"},
@@ -751,7 +751,7 @@ license = ["ukkonen"]
 name = "idna"
 version = "3.8"
 description = "Internationalized Domain Names in Applications (IDNA)"
-optional = false
+optional = true
 python-versions = ">=3.6"
 files = [
     {file = "idna-3.8-py3-none-any.whl", hash = "sha256:050b4e5baadcd44d760cedbd2b8e639f2ff89bbc7a5730fcc662954303377aac"},
@@ -931,13 +931,13 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "jupyter-client"
-version = "8.6.2"
+version = "8.6.3"
 description = "Jupyter protocol implementation and client libraries"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jupyter_client-8.6.2-py3-none-any.whl", hash = "sha256:50cbc5c66fd1b8f65ecb66bc490ab73217993632809b6e505687de18e9dea39f"},
-    {file = "jupyter_client-8.6.2.tar.gz", hash = "sha256:2bda14d55ee5ba58552a8c53ae43d215ad9868853489213f37da060ced54d8df"},
+    {file = "jupyter_client-8.6.3-py3-none-any.whl", hash = "sha256:e8a19cc986cc45905ac3362915f410f3af85424b4c0905e94fa5f2cb08e8f23f"},
+    {file = "jupyter_client-8.6.3.tar.gz", hash = "sha256:35b3a0947c4a6e9d589eb97d7d4cd5e90f910ee73101611f01283732bd6d9419"},
 ]
 
 [package.dependencies]
@@ -1123,7 +1123,7 @@ files = [
 name = "mpmath"
 version = "1.3.0"
 description = "Python library for arbitrary-precision floating-point arithmetic"
-optional = false
+optional = true
 python-versions = "*"
 files = [
     {file = "mpmath-1.3.0-py3-none-any.whl", hash = "sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c"},
@@ -2249,7 +2249,7 @@ pbr = ">=2.0.0"
 name = "sympy"
 version = "1.13.2"
 description = "Computer algebra system (CAS) in Python"
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "sympy-1.13.2-py3-none-any.whl", hash = "sha256:c51d75517712f1aed280d4ce58506a4a88d635d6b5dd48b39102a7ae1f3fcfe9"},
@@ -2496,7 +2496,7 @@ files = [
 name = "urllib3"
 version = "2.2.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-optional = false
+optional = true
 python-versions = ">=3.8"
 files = [
     {file = "urllib3-2.2.2-py3-none-any.whl", hash = "sha256:a448b2f64d686155468037e1ace9f2d2199776e17f0a46610480d311f73e3472"},
