@@ -40,7 +40,7 @@ loguru = "^0.7.0"
 pandas = "2.0.3"
 # pynvml = {version = "^11.5.0", optional = true}
 python = "^3.8" # this allows all version of python 3 >=3.8
-rich = "^13.3.3"
+rich = ">=13.3.3,<15.0.0"
 torch = {version = "^2.2.2", optional = true}
 tqdm = "^4.65.0"
 varname = ">=0.11.2,<0.14.0"
