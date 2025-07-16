@@ -14,6 +14,9 @@
 
 eds utilities.
 
+# TODO: generate a bunch of documentation and make it easier to navigate through the lib
+
+
 torch, torchvision, and torchtyping are required to use the torch package but not specified, so as to be flexible with any environment this package is installed in.
 
 </div>
