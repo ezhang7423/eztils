@@ -7,32 +7,32 @@ PYTHONPATH := `pwd`
 IMAGE := eztils
 VERSION := latest
 
-#* Poetry
-.PHONY: poetry-download
-poetry-download:
-	curl -sSL https://install.python-poetry.org | $(PYTHON) -
+#* uv
+.PHONY: uv-download
+uv-download:
+	$(PYTHON) -m pip install --upgrade uv
 
-.PHONY: poetry-remove
-poetry-remove:
-	curl -sSL https://install.python-poetry.org | $(PYTHON) - --uninstall
+.PHONY: uv-remove
+uv-remove:
+	$(PYTHON) -m pip uninstall -y uv
 
 #* Installation
 .PHONY: install
 install:
-	poetry lock -n && poetry export --without-hashes > requirements.txt
-	poetry install -n
-	# -poetry run mypy --install-types --non-interactive ./
+	uv venv
+	uv pip install --editable .[dev]
+# -uv run mypy --install-types --non-interactive ./
 
 .PHONY: pre-commit-install
 pre-commit-install:
-	poetry run pre-commit install
+	uv run pre-commit install
 
 #* Formatters
 .PHONY: codestyle
 codestyle:
-	poetry run pyupgrade --exit-zero-even-if-changed --py37-plus **/*.py
-	poetry run isort --settings-path pyproject.toml ./
-	poetry run black --config pyproject.toml ./
+	uv run pyupgrade --exit-zero-even-if-changed --py37-plus **/*.py
+	uv run isort --settings-path pyproject.toml ./
+	uv run black --config pyproject.toml ./
 
 .PHONY: formatting
 formatting: codestyle
@@ -40,32 +40,32 @@ formatting: codestyle
 #* Linting
 .PHONY: test
 test:
-	PYTHONPATH=$(PYTHONPATH) poetry run pytest -c pyproject.toml --cov-report=html --cov=eztils tests/
-	# poetry run coverage-badge -o assets/images/coverage.svg -f
+	uv pip install --editable .[dev]
+	PYTHONPATH=$(PYTHONPATH) uv run pytest -c pyproject.toml --cov-report=html --cov=eztils tests/
+# uv run coverage-badge -o assets/images/coverage.svg -f
 
 .PHONY: check-codestyle
 check-codestyle:
-	poetry run isort --diff --check-only --settings-path pyproject.toml ./
-	poetry run black --diff --check --config pyproject.toml ./
-	#poetry run darglint --verbosity 2 eztils tests
+	uv run isort --diff --check-only --settings-path pyproject.toml ./
+	uv run black --diff --check --config pyproject.toml ./
+#uv run darglint --verbosity 2 eztils tests
 
 .PHONY: mypy
 mypy:
-	poetry run mypy --config-file pyproject.toml ./
+	uv run mypy --config-file pyproject.toml ./
 
 .PHONY: check-safety
 check-safety:
-	poetry check
-	poetry run safety check --full-report
-	poetry run bandit -ll --recursive eztils tests
+	uv pip check
+	uv run safety check --full-report
+	uv run bandit -ll --recursive eztils tests
 
 .PHONY: lint
 lint: test check-codestyle mypy check-safety
 
 .PHONY: update-dev-deps
 update-dev-deps:
-	poetry add -D bandit@latest darglint@latest "isort[colors]@latest" mypy@latest pre-commit@latest pydocstyle@latest pylint@latest pytest@latest pyupgrade@latest safety@latest coverage@latest coverage-badge@latest pytest-html@latest pytest-cov@latest
-	poetry add -D --allow-prereleases black@latest
+	uv pip install -U bandit darglint "isort[colors]" mypy pre-commit pydocstyle pylint pytest pyupgrade safety coverage coverage-badge pytest-html pytest-cov black
 
 #* Docker
 # Example: make docker-build VERSION=latest
