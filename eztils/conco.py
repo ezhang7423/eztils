@@ -9,9 +9,23 @@ import pickle
 import traceback
 import time
 from datetime import datetime, timedelta
+import inspect
+
+def where_defined(fn):
+    # unwrap decorators that used functools.wraps
+    f = inspect.unwrap(fn)
+    if hasattr(f, "__code__"):
+        return {
+            "file": f.__code__.co_filename,
+            "line": f.__code__.co_firstlineno,
+            "module": f.__module__
+        }
+    # e.g. builtins or C extensions
+    return {"file": None, "line": None, "module": getattr(f, "__module__", None)}
 
 
 async def progress_watcher(
+    fn,
     total: int,
     results: list,
     cache_dir: str = None,
@@ -77,8 +91,10 @@ async def progress_watcher(
         # Current local datetime in a nice format
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        fn_defn = where_defined(fn)
         print(
             f"[{now_str}] "
+            f"{fn_defn['file']}:{fn_defn['line']}, "
             f"Completed {completed_count}/{total} tasks, "
             f"Elapsed: {elapsed_td}, "
             f"ETA: {eta_td}"
@@ -110,6 +126,7 @@ async def async_concurrency(
     cache_dir=None,  # Directory to cache results
     return_cache=False,  # just return what's in the cache
     filter_none=False,
+    stop_after_frac: float | str | None = None,
 ):
     """
     Runs `fn` concurrently on items from list_.
@@ -120,12 +137,25 @@ async def async_concurrency(
 
     TODO: add a meetadata.pkl that captures args and "fn" code
     """
-
     if list_ is None:
         list_ = ["in_progress"] * max_workers
 
     total_items = len(list_)
     results = ["in_progress"] * total_items
+
+    if stop_after_frac is not None:
+        if stop_after_frac == "auto":
+            if len(list_) < 1000:
+                stop_after_frac = None
+            if len(list_) < 10_000:
+                stop_after_frac = 0.99
+            else:
+                stop_after_frac = 0.9 # could be 0.95 too
+
+        if not (0.0 < stop_after_frac <= 1.0):
+            raise ValueError("stop_after_frac must be in (0, 1].")
+        if stop_after_frac == 1.0:
+            stop_after_frac = None
 
     # Create the cache directory if needed
     if cache_dir:
@@ -189,7 +219,7 @@ async def async_concurrency(
 
     # Kick off the progress watcher (works with or without cache_dir)
     progress_task = asyncio.create_task(
-        progress_watcher(total_items, results, cache_dir)
+        progress_watcher(fn, total_items, results, cache_dir)
     )
 
     # Create tasks for each item
@@ -202,13 +232,38 @@ async def async_concurrency(
             i, res = await completed
             results[i] = res
 
+
+            # track completion (anything no longer "in_progress" counts)
+            completed_so_far = sum(r != "in_progress" for r in results)  # minimal, readable
+
+            # Check early-stop threshold  <-- NEW
+            if stop_after_frac is not None:
+                if completed_so_far / total_items >= stop_after_frac:
+                    print(
+                        f"Reached stop_after_frac={stop_after_frac:.2%} "
+                        f"({completed_so_far}/{total_items}); cancelling remaining tasks."
+                    )
+                    # cancel everything still pending
+                    for t in tasks:
+                        if not t.done():
+                            t.cancel()
+                        progress_task.cancel()
+                    break
+
+
         if not return_cache:
             # Wait for the progress watcher to see all tasks completed
-            await progress_task
+            try:
+                await progress_task
+            except asyncio.CancelledError:
+                pass
     finally:
         for task in tasks:
             task.cancel()
         progress_task.cancel()
+
+    # change all in_progress to None
+    results = [None if r == "in_progress" else r for r in results]
 
     if cache_dir and not return_cache:
         fpath = os.path.abspath(os.path.join(cache_dir, "_all_results.pkl"))
