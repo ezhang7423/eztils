@@ -1,5 +1,31 @@
 import asyncio
 from openai import Client, AsyncClient
+from openai import DefaultAioHttpClient
+import httpx
+import atexit
+
+BIG_RUN = True
+MAX_CONNECTIONS = 100_000
+MAX_KEEPALIVE_CONNECTIONS = 1_000
+MAX_RETRIES = 5
+DEFAULT_TIMEOUT = httpx.Timeout(timeout=6000, connect=5.0)
+
+if BIG_RUN:
+    async_client = AsyncClient(
+        http_client=DefaultAioHttpClient(
+            limits=httpx.Limits(
+                max_connections=MAX_CONNECTIONS,
+                max_keepalive_connections=MAX_KEEPALIVE_CONNECTIONS,
+            ),
+            timeout=DEFAULT_TIMEOUT,
+        ),
+        max_retries=MAX_RETRIES,
+    )
+    atexit.register(lambda: asyncio.run(async_client.close()))
+else:
+    async_client = AsyncClient()
+
+# call async_client on system exit
 
 models = {
     "o1":        "o1-2024-12-17",
@@ -16,55 +42,75 @@ models = {
 
 def get_response(model_key, prompt, **kwargs):
     client = Client()
-    return client.chat.completions.create(
-        model=models[model_key],
-        messages=[{"role": "user", "content": prompt}],
-        **kwargs,
-    ).choices[0].message.content
+    return (
+        client.chat.completions.create(
+            model=models[model_key],
+            messages=[{"role": "user", "content": prompt}],
+            **kwargs,
+        )
+        .choices[0]
+        .message.content
+    )
 
-async def get_response_async(model_key, prompt, **kwargs):
-    client = AsyncClient()
-    resp = await client.chat.completions.create(
+
+async def async_get_response(model_key, prompt, **kwargs):
+    resp = await async_client.chat.completions.create(
         model=models[model_key],
         messages=[{"role": "user", "content": prompt}],
         **kwargs,
     )
     return resp.choices[0].message.content
 
+
 def _make_sync_fn(key):
     def fn(prompt, **kwargs):
         return get_response(key, prompt, **kwargs)
+
     fn.__name__ = f"prompt_{key}"
     fn.__doc__ = f"Synchronously call model `{key}`"
     return fn
 
+
 def _make_async_fn(key):
     async def fn(prompt, **kwargs):
-        return await get_response_async(key, prompt, **kwargs)
+        return await async_get_response(key, prompt, **kwargs)
+
     fn.__name__ = f"async_prompt_{key}"
     fn.__doc__ = f"Asynchronously call model `{key}`"
     return fn
 
+
 # Inject everything into module namespace
-for key in models:    
-    globals()[f"prompt_{key}"]       = _make_sync_fn(key)
+for key in models:
+    globals()[f"prompt_{key}"] = _make_sync_fn(key)
     globals()[f"async_prompt_{key}"] = _make_async_fn(key)
 
 # Explicit exports for `from your_module import *`
 __all__ = [
-    *[f"prompt_{k}"       for k in models],
+    *[f"prompt_{k}" for k in models],
     *[f"async_prompt_{k}" for k in models],
 ]
 
 # make a factory for each model key
+def main():
 
-
-if __name__ == "__main__":
-    from safesys.x.eddie.lib.conco import async_concurrency
+    from eztils.conco import async_concurrency
     import functools
 
     n = 1000
     prompt = "What is the capital of France?"
-    res = async_concurrency(fn=async_prompt_4o, list_=[prompt] * n, max_workers=n)  # this takes ~20 sec
+
+
+    res = async_concurrency(
+        fn=lambda *args, **kwargs: async_prompt_4o(*args, **kwargs), list_=[prompt] * n, max_workers=n, stop_after_frac=0.99
+    )  # this takes ~20 sec
     res = asyncio.run(res)
+    
     print(res)
+    print(len(res))
+    # print num none
+    print(sum(r is None for r in res))
+
+
+if __name__ == "__main__":
+    main()
