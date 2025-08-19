@@ -80,6 +80,52 @@ def _make_async_fn(key):
     return fn
 
 
+### GPT-5 tool use
+# Helper: flatten the model's final text output
+def extract_text(resp):
+    parts = []
+    for item in resp.output:  # top-level response items
+        if item.type == "message":
+            for c in item.content:
+                if c.type == "output_text":
+                    parts.append(c.text)
+    return "\n".join(parts)
+
+
+# model: nano, mini, and full
+# reasoning_effort: minimal, low, medium, high
+# verbosity: low, medium, high
+# tool_use: True, False
+# total settings: 3 * 4 * 2 * 3 = 72 - 9 (bc toouse is at least low) = 63
+
+# 63 * 2158 * 64 = 8.7M calls
+# 8.7M calls * 10K avg tokens = 87B tokens
+
+
+async def gpt5(query, model="gpt-5-nano", reasoning_effort='minimal', verbosity="low", tool_use=False, max_output_tokens=128_000, **kwargs):
+    if tool_use:
+        tools = [{"type": "web_search"}, {"type": "code_interpreter", "container": {"type": "auto"}}]
+    else:
+        tools = None
+
+    if tool_use and reasoning_effort == 'minimal':
+        print("Tool use requires reasoning effort to be at least 'low', setting to 'low'")
+        reasoning_effort = 'low'
+
+    response = await async_client.responses.create(
+        model=model,
+        input=query,
+        text={"format": {"type": "text"}, "verbosity": verbosity},
+        reasoning={"effort": reasoning_effort, "summary": "detailed"},
+        tools=tools,
+        tool_choice="auto" if tool_use else None,
+        max_output_tokens=max_output_tokens,
+        **kwargs,
+    )
+
+    return response
+
+
 # Inject everything into module namespace
 for key in models:
     globals()[f"prompt_{key}"] = _make_sync_fn(key)
@@ -90,6 +136,7 @@ __all__ = [
     *[f"prompt_{k}" for k in models],
     *[f"async_prompt_{k}" for k in models],
 ]
+
 
 # make a factory for each model key
 def main():
