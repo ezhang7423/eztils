@@ -11,6 +11,7 @@ import time
 from datetime import datetime, timedelta
 import inspect
 
+
 def where_defined(fn):
     # unwrap decorators that used functools.wraps
     f = inspect.unwrap(fn)
@@ -18,7 +19,7 @@ def where_defined(fn):
         return {
             "file": f.__code__.co_filename,
             "line": f.__code__.co_firstlineno,
-            "module": f.__module__
+            "module": f.__module__,
         }
     # e.g. builtins or C extensions
     return {"file": None, "line": None, "module": getattr(f, "__module__", None)}
@@ -31,6 +32,7 @@ async def progress_watcher(
     cache_dir: str = None,
     poll_interval: float = 1.0,
     stalled_timeout: float = 600.0,
+    silent: bool = False,
 ):
     """
     Periodically checks completion progress, either by counting:
@@ -59,8 +61,7 @@ async def progress_watcher(
                 completed_count = 0
             else:
                 completed_count = sum(
-                    f.startswith("result_") and f.endswith(".pkl")
-                    for f in os.listdir(cache_dir)
+                    f.startswith("result_") and f.endswith(".pkl") for f in os.listdir(cache_dir)
                 )
         else:
             completed_count = sum(r != "in_progress" for r in results)
@@ -92,13 +93,14 @@ async def progress_watcher(
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         fn_defn = where_defined(fn)
-        print(
-            f"[{now_str}] "
-            f"{fn_defn['file']}:{fn_defn['line']}, "
-            f"Completed {completed_count}/{total} tasks, "
-            f"Elapsed: {elapsed_td}, "
-            f"ETA: {eta_td}"
-        )
+        if not silent:
+            print(
+                f"[{now_str}] "
+                f"{fn_defn['file']}:{fn_defn['line']}, "
+                f"Completed {completed_count}/{total} tasks, "
+                f"Elapsed: {elapsed_td}, "
+                f"ETA: {eta_td}"
+            )
 
         # Check if all tasks completed
         if completed_count >= total:
@@ -108,9 +110,10 @@ async def progress_watcher(
         if stalled_timeout is not None:
             time_since_progress = time.time() - last_progress_time
             if time_since_progress > stalled_timeout:
-                print(
-                    f"Stalled for {time_since_progress:.1f}s (limit={stalled_timeout}s); exiting."
-                )
+                if not silent:
+                    print(
+                        f"Stalled for {time_since_progress:.1f}s (limit={stalled_timeout}s); exiting."
+                    )
                 break
 
         await asyncio.sleep(poll_interval)
@@ -127,6 +130,8 @@ async def async_concurrency(
     return_cache=False,  # just return what's in the cache
     filter_none=False,
     stop_after_frac: float | str | None = None,
+    retry_none: bool = True,
+    silent: bool = False,
 ):
     """
     Runs `fn` concurrently on items from list_.
@@ -134,6 +139,7 @@ async def async_concurrency(
     - If `cache_dir` is provided, results are stored and/or read from .pkl files named `result_{i}.pkl`.
     - If `cache_dir` is not provided, results remain in memory, but the same progress watcher will print progress.
     - This version also prints time elapsed and a naive ETA in the progress watcher.
+    - Set `silent=True` to suppress console output.
 
     TODO: add a meetadata.pkl that captures args and "fn" code
     """
@@ -150,7 +156,7 @@ async def async_concurrency(
             if len(list_) < 10_000:
                 stop_after_frac = 0.99
             else:
-                stop_after_frac = 0.9 # could be 0.95 too
+                stop_after_frac = 0.9  # could be 0.95 too
 
         if not (0.0 < stop_after_frac <= 1.0):
             raise ValueError("stop_after_frac must be in (0, 1].")
@@ -161,7 +167,8 @@ async def async_concurrency(
     if cache_dir:
         os.makedirs(cache_dir, exist_ok=True)
         cache_dir = os.path.abspath(cache_dir)
-        print(f"Results will be cached in {cache_dir}")
+        if not silent:
+            print(f"Results will be cached in {cache_dir}")
 
     semaphore = asyncio.Semaphore(max_workers)
 
@@ -177,9 +184,10 @@ async def async_concurrency(
                 with open(cache_file, "rb") as f:
                     return i, pickle.load(f)
             except Exception as e:
-                print(
-                    f"Error loading cached result for index {i}: {e} - {'Recomputing' if not return_cache else ''}."
-                )
+                if not silent:
+                    print(
+                        f"Error loading cached result for index {i}: {e} - {'Recomputing' if not return_cache else ''}."
+                    )
 
         if cache_dir and return_cache:
             return i, None
@@ -202,14 +210,17 @@ async def async_concurrency(
                         with open(cache_file, "wb") as f:
                             pickle.dump(result, f)
                     except Exception as e:
-                        print(f"Error writing result to cache for index {i}: {e}")
+                        if not silent:
+                            print(f"Error writing result to cache for index {i}: {e}")
 
             except asyncio.TimeoutError as e:
-                print(f"TimeoutError occurred for index {i}: {e}")
+                if not silent:
+                    print(f"TimeoutError occurred for index {i}: {e}")
                 result = None
             except Exception as e:
                 if ignore_exceptions:
-                    print(f"Exception for index {i}:\n{traceback.format_exc()}")
+                    if not silent:
+                        print(f"Exception for index {i}:\n{traceback.format_exc()}")
                     result = None
                 else:
                     # Raise for the top-level caller to handle
@@ -219,12 +230,34 @@ async def async_concurrency(
 
     # Kick off the progress watcher (works with or without cache_dir)
     progress_task = asyncio.create_task(
-        progress_watcher(fn, total_items, results, cache_dir)
+        progress_watcher(
+            fn,
+            total_items,
+            results,
+            cache_dir,
+            silent=silent,
+        )
     )
 
     # Create tasks for each item
+    if retry_none and cache_dir:
+        # go ahead and remove all None pkl results
+        for i in range(total_items):
+            cache_file = os.path.join(cache_dir, f"result_{i}.pkl")
+            if cache_file and os.path.exists(cache_file):
+                try:
+                    with open(cache_file, "rb") as f:
+                        res = pickle.load(f)
+                    if res is None:
+                        os.remove(cache_file)
+                except Exception as e:
+                    if not silent:
+                        print(f"Error reading cached result for index {i}: {e} - removing file.")
+                    os.remove(cache_file)
+        
     tasks = [asyncio.create_task(run_task(i, p)) for i, p in enumerate(list_)]
-    print("Finished creating tasks. Waiting for all to complete...")
+    if not silent:
+        print("Finished creating tasks. Waiting for all to complete...")
 
     try:
         # As tasks finish, store their results
@@ -232,24 +265,23 @@ async def async_concurrency(
             i, res = await completed
             results[i] = res
 
-
             # track completion (anything no longer "in_progress" counts)
             completed_so_far = sum(r != "in_progress" for r in results)  # minimal, readable
 
             # Check early-stop threshold  <-- NEW
             if stop_after_frac is not None:
                 if completed_so_far / total_items >= stop_after_frac:
-                    print(
-                        f"Reached stop_after_frac={stop_after_frac:.2%} "
-                        f"({completed_so_far}/{total_items}); cancelling remaining tasks."
-                    )
+                    if not silent:
+                        print(
+                            f"Reached stop_after_frac={stop_after_frac:.2%} "
+                            f"({completed_so_far}/{total_items}); cancelling remaining tasks."
+                        )
                     # cancel everything still pending
                     for t in tasks:
                         if not t.done():
                             t.cancel()
                         progress_task.cancel()
                     break
-
 
         if not return_cache:
             # Wait for the progress watcher to see all tasks completed
@@ -269,7 +301,8 @@ async def async_concurrency(
         fpath = os.path.abspath(os.path.join(cache_dir, "_all_results.pkl"))
         with open(fpath, "wb") as f:
             pickle.dump(results, f)
-        print(f"Wrote all results to cache file {fpath}")
+        if not silent:
+            print(f"Wrote all results to cache file {fpath}")
 
     if filter_none:
         results = [r for r in results if r is not None]
