@@ -88,7 +88,12 @@ def abspath():
     # return os.path.dirname(inspect.stack()[1][1]) # type: ignore
     # return os.path.dirname(getsourcefile(lambda:0)) # type: ignore
     """
+    from inspect import getsourcefile
+    import inspect as inspect_
+    from pathlib import Path
+    import os
     return Path(os.path.dirname(getsourcefile(inspect_.stack()[1][0])))  # type: ignore
+
 
 
 from pathlib import Path
