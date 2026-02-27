@@ -15,7 +15,7 @@
 eds utilities.
 
 # TODO: generate a bunch of documentation and make it easier to navigate through the lib
-# TODO: switch this to using uv
+# Now uses uv for dependency management
 
 torch, torchvision, and torchtyping are required to use the torch package but not specified, so as to be flexible with any environment this package is installed in.
 
@@ -35,13 +35,13 @@ torch, torchvision, and torchtyping are required to use the torch package but no
 cd eztils && git init
 ```
 
-2. If you don't have `Poetry` installed run:
+2. If you don't have `uv` installed run:
 
 ```bash
-make poetry-download
+make uv-download
 ```
 
-3. Initialize poetry and install `pre-commit` hooks:
+3. Initialize the environment and install `pre-commit` hooks:
 
 ```bash
 make install
@@ -69,33 +69,18 @@ git push -u origin main
 - Set up [Dependabot](https://docs.github.com/en/github/administering-a-repository/enabling-and-disabling-version-updates#enabling-github-dependabot-version-updates) to ensure you have the latest dependencies.
 - Set up [Stale bot](https://github.com/apps/stale) for automatic issue closing.
 
-### Poetry
+### uv
 
-Want to know more about Poetry? Check [its documentation](https://python-poetry.org/docs/).
-
-<details>
-<summary>Details about Poetry</summary>
-<p>
-
-Poetry's [commands](https://python-poetry.org/docs/cli/#commands) are very intuitive and easy to learn, like:
-
-- `poetry add numpy@latest`
-- `poetry run pytest`
-- `poetry publish --build -u ezipe -p R...`
-
-etc
-
-</p>
-</details>
+uv is used to manage dependencies and virtual environments. See [its documentation](https://github.com/astral-sh/uv) for more details.
 
 ### Building and releasing your package
 
 Building a new version of the application contains steps:
 
-- Bump the version of your package `poetry version <version>`. You can pass the new version explicitly, or a rule such as `major`, `minor`, or `patch`. For more details, refer to the [Semantic Versions](https://semver.org/) standard.
+- Bump the version of your package `uv version <version>`. You can pass the new version explicitly, or a rule such as `major`, `minor`, or `patch`. For more details, refer to the [Semantic Versions](https://semver.org/) standard.
 - Make a commit to `GitHub`.
 - Create a `GitHub release`.
-- And... publish 🙂 `poetry publish --build`
+- And... publish 🙂 `uv publish`
 
 ## 🎯 What's next
 
@@ -124,7 +109,7 @@ Articles:
 ### Development features
 
 - Supports for `Python 3.8` and higher.
-- [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/ezhang7423/eztils/blob/master/pyproject.toml) and [`setup.cfg`](https://github.com/ezhang7423/eztils/blob/master/setup.cfg).
+- [`uv`](https://github.com/astral-sh/uv) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/ezhang7423/eztils/blob/master/pyproject.toml) and [`setup.cfg`](https://github.com/ezhang7423/eztils/blob/master/setup.cfg).
 - Automatic codestyle with [`black`](https://github.com/psf/black), [`isort`](https://github.com/timothycrosley/isort) and [`pyupgrade`](https://github.com/asottile/pyupgrade).
 - Ready-to-use [`pre-commit`](https://pre-commit.com/) hooks with code-formatting.
 - Type checks with [`mypy`](https://mypy.readthedocs.io); docstring checks with [`darglint`](https://github.com/terrencepreilly/darglint); security checks with [`safety`](https://github.com/pyupio/safety) and [`bandit`](https://github.com/PyCQA/bandit)
@@ -153,10 +138,10 @@ Articles:
 pip install -U eztils
 ```
 
-or install with `Poetry`
+or install with `uv`
 
 ```bash
-poetry add eztils
+uv pip install eztils
 ```
 
 Then you can run
@@ -165,10 +150,10 @@ Then you can run
 eztils --help
 ```
 
-or with `Poetry`:
+or with `uv`:
 
 ```bash
-poetry run eztils --help
+uv run eztils --help
 ```
 
 ### Makefile usage
@@ -176,19 +161,19 @@ poetry run eztils --help
 [`Makefile`](https://github.com/ezhang7423/eztils/blob/master/Makefile) contains a lot of functions for faster development.
 
 <details>
-<summary>1. Download and remove Poetry</summary>
+<summary>1. Download and remove uv</summary>
 <p>
 
-To download and install Poetry run:
+To download and install uv run:
 
 ```bash
-make poetry-download
+make uv-download
 ```
 
 To uninstall
 
 ```bash
-make poetry-remove
+make uv-remove
 ```
 
 </p>
@@ -248,7 +233,7 @@ make update-dev-deps
 make check-safety
 ```
 
-This command launches `Poetry` integrity checks as well as identifies security issues with `Safety` and `Bandit`.
+This command launches `uv` integrity checks as well as identifies security issues with `Safety` and `Bandit`.
 
 ```bash
 make check-safety
