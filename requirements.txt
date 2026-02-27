@@ -1,4 +1,4 @@
-art==6.2 ; python_version >= "3.8" and python_version < "4.0"
+art==6.4 ; python_version >= "3.8" and python_version < "4.0"
 beartype==0.17.2 ; python_version >= "3.8" and python_version < "4.0"
 colorama==0.4.6 ; python_version >= "3.8" and python_version < "4.0" and (sys_platform == "win32" or platform_system == "Windows")
 einops==0.8.0 ; python_version >= "3.8" and python_version < "4.0"
